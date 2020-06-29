@@ -25,4 +25,8 @@ camlfwod: objdump.byte
 camlfwrun: $(C) $(HD)
 	$(LINK.c) -I runtime $(filter %.c,$^) -o $@
 
-runtime/jumptab
+runtime/jumptable.h: runtime/instruct.h
+	sed -rn 's/([[:upper:]]+)/\&\&lbl_\1/;T;p' $< > $@
+
+runtime/instruct.c: runtime/instruct.h
+	{ echo 'const char *name_of_instructions[] = {'; sed -rn 's/([[:upper:][:digit:]]+).*/
