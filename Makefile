@@ -12,4 +12,17 @@ RST := '\e[0m'
 
 all: camlfwc camlfwod camlfwrun
 
-camlfwc: ma
+camlfwc: main.byte
+	ln -sf $< $@
+
+camlfwod: objdump.byte
+	ln -sf $< $@
+
+%.byte: $(SRC)
+	ocamlbuild $@
+	touch $@
+
+camlfwrun: $(C) $(HD)
+	$(LINK.c) -I runtime $(filter %.c,$^) -o $@
+
+runtime/jumptab
