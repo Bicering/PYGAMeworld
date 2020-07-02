@@ -36,3 +36,9 @@ opcode.ml: runtime/instruct.h
 
 cprim.ml: runtime/prim.c
 	awk '/cprims/{a=1} /\w+,/&&a==1{sub(",","");s[n++]=$$1} END{printf "let name_of_prims=[|";for(i=0;i<n;i++)printf "\""s[i]"\";";print"|]"}' $< > $@
+
+test-%: force
+	@echo -e $(CYAN)test $*$(RST)
+	@t=$$(mktemp); ./camlfwc tests/$*.ml -o $$t && ./camlfwrun $$t && echo; r=$$?; $(RM) tests/$*.zo $$t; exit $$r
+
+#test: $(addprefix test-,$(patsubst test
