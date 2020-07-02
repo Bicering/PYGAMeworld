@@ -116,3 +116,89 @@ let compile_lambda expr =
           c_expr e (Ksetglobal id::cont)
       | Lprim(Pmakeblock tag, ls) ->
           c_expr_list ls (Kmakeblock(tag, List.length ls)::cont)
+      | Lprim(Pnot, [e]) ->
+          begin match cont with
+          | Kbranchif lbl::c ->
+              c_expr e (Kbranchifnot lbl::c)
+          | Kbranchifnot lbl::c ->
+              c_expr e (Kbranchif lbl::c)
+          | c ->
+              c_expr e (Kprim Pnot::c)
+          end
+      | Lprim(p, ls) ->
+          c_expr_list ls (Kprim p::cont)
+      | Lstaticcatch(e, Lstaticraise) ->
+          c_expr e cont
+      | Lstaticcatch(e, handler) ->
+          let b, c = make_branch cont
+          and lbl = new_label() in
+          compile_expr lbl e (b::Klabel lbl::c_expr handler c)
+      | Lstaticraise ->
+          Kbranch staticraise::cont
+      | Lsequence(l1,l2) ->
+          c_expr l1 (c_expr l2 cont)
+      | Lswitch(1, sel, [_, e]) ->
+          c_expr e cont
+      | Lswitch(2, sel, [Constr_tag_regular(_,0), l0; Constr_tag_regular(_,1), l1]) ->
+          c_bin_test sel l1 l0 cont
+      | Lswitch(span,sel,alts) ->
+          if List.exists (function Constr_tag_extensible _,_ -> true | _ -> false) alts then
+            c_test_list
+            (List.map (fun (tag,e) -> Ptest_noteqtag tag, e) alts)
+            cont
+          else
+            let b, c = make_branch cont in
+            let tbl = Array.make span staticraise in
+            let rec go = function
+              | [Constr_tag_regular(_,i),e] ->
+                  let lbl = new_label() in
+                  tbl.(i) <- lbl;
+                  Klabel lbl::c_expr e c
+              | (Constr_tag_regular(_,i),e)::rest ->
+                  let lbl = new_label() in
+                  tbl.(i) <- lbl;
+                  Klabel lbl::c_expr e (b::go rest)
+              | _ -> assert false
+            in
+            c_expr sel (Kswitch tbl::go alts)
+      | Lvar i ->
+          Kaccess i :: cont
+
+    and c_expr_list expr cont =
+      match expr with
+      | [] -> cont
+      | [e] -> c_expr e cont
+      | e::es -> c_expr_list es (Kpush::c_expr e cont)
+
+    and c_bin_test cond ifso ifnot cont =
+      let b, c = make_branch cont
+      and lbl = new_label() in
+      c_expr cond (Kbranchifnot lbl::c_expr ifso (b::Klabel lbl::c_expr ifnot c))
+
+    and c_test_list alts cont =
+      let b, c = make_branch cont in
+      let rec go = function
+        | [] -> assert false
+        | [tst,e] ->
+            Ktest(tst, staticraise)::c_expr e c
+        | (tst,e)::rest ->
+            let lbl = new_label() in
+            Ktest(tst, lbl)::c_expr e (b::Klabel lbl::go rest)
+      in
+      go alts
+
+    in
+    c_expr expr cont
+
+  and compile_rest cont =
+    match !to_compile with
+    | [] -> cont
+    | (e,lbl)::rest ->
+        to_compile := rest;
+        compile_rest (Klabel lbl::compile_expr (-1) e (Kreturn::cont))
+
+  in
+  reset_label();
+  let init = compile_expr (-1) expr [] in
+  let func = compile_rest [] in
+  init, func
