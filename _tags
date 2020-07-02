@@ -1,0 +1,2 @@
+false: use_menhir
+true: debug

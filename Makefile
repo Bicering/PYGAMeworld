@@ -46,4 +46,6 @@ test:
 	@all=0; fail=0; \
 	for t in $(patsubst tests/%.ml,%,$(wildcard tests/*.ml)); do \
 		$(MAKE) --no-print-directory test-$$t || ((fail++)); \
-		((all
+		((all++)); \
+	done; \
+	echo -e $(GREEN)$$fail/$$all cases failed$(RST)

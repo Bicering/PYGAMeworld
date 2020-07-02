@@ -1,0 +1,118 @@
+
+open Instruction
+open Lambda
+open Syntax
+
+let label_ctr = ref 0
+let reset_label () = label_ctr := 0
+let new_label () = incr label_ctr; !label_ctr
+
+let rec is_tail = function
+  | Kreturn::_ -> true
+  | Klabel _::c -> is_tail c
+  | _ -> false
+
+let make_branch code =
+  match code with
+  | Kreturn::_ ->
+      Kreturn, code
+  | (Kbranch _ as b)::_ ->
+      b, code
+  | _ ->
+      let lbl = new_label() in
+      Kbranch lbl, Klabel lbl::code
+
+let test_for_const = function
+  | Const_char x ->
+      Ptest_int(Pneqimm (int_of_char x))
+  | Const_int x ->
+      Ptest_int(Pneqimm x)
+  | Const_float x ->
+      Ptest_float(Pneqimm x)
+  | Const_string x ->
+      Ptest_string(Pneqimm x)
+
+let compile_lambda expr =
+  let to_compile = ref [] in
+  let rec compile_expr staticraise expr cont =
+    let rec c_expr expr cont =
+      match expr with
+      | Labstract e ->
+          if is_tail cont then
+            Kgrab::c_expr e cont
+          else (
+            let lbl = new_label() in
+            to_compile := (e,lbl) :: !to_compile;
+            Kcur lbl::cont
+          )
+      | Lapply(e,es) ->
+          begin match cont with
+          | Kreturn::_ ->
+              c_expr_list es (Kpush::c_expr e (Ktermapply::cont))
+          | _ ->
+              Kpushmark::c_expr_list es (Kpush::c_expr e (Kapply::cont))
+          end
+      | Lcatch(body,handler) ->
+          let b, c = make_branch cont in
+          let lbl = new_label() in
+          Kpushtrap lbl::c_expr body
+          (Kpoptrap::b::Klabel lbl::c_expr handler c)
+      | Lcond(sel,alts) ->
+          let b, c = make_branch cont in
+          c_expr sel @@
+          c_test_list (List.map (fun (c,e) -> (test_for_const c, e)) alts) cont
+      | Lconst c ->
+          Kquote c :: cont
+      | Lfor(start,stop,up,body) ->
+          let l_end = new_label() and l_loop = new_label() in
+          c_expr start (
+            Kmakeblock(Constr_tag_regular(1,0),1)::Klet::
+            c_expr stop (
+              Klet::Klabel l_loop::
+              Kaccess 1::Kprim(Pfield 0)::Klet::
+              Kpush::Kaccess 1::
+              Ktest(Ptest_int(if up then Plt else Pgt), l_end)::
+              c_expr body (
+                Kendlet 1::
+                Kaccess 1::Kprim(if up then Pincr else Pdecr)::
+                Kbranch l_loop::
+                Klabel l_end::Kendlet 3::
+                Kquote(Const_block 0)::cont
+              )
+            )
+          )
+      | Lif(cond,ifso,ifnot) ->
+          c_bin_test cond ifso ifnot cont
+      | Llet(binds,body) ->
+          let c = if is_tail cont then cont else Kendlet(List.length binds)::cont in
+          let c = c_expr body c in
+          let rec go = function
+            | [] -> c
+            | e::es -> c_expr e (Klet::go es)
+          in
+          go binds
+      | Lletrec(binds,body) ->
+          let n = List.length binds in
+          let c = if is_tail cont then cont else Kendlet n::cont in
+          let c = c_expr body c in
+          let rec go i = function
+            | [] -> c
+            | e::es -> c_expr e (Kupdate (i-1)::go (i-1) es)
+          in
+          Kdummy n::go n binds
+      | Lprim(Pdummy n, []) ->
+          Kdummy n::cont
+      | Lprim(Pgetglobal id, []) ->
+          Kgetglobal id::cont
+      | Lprim(Psequand, [e1;e2]) ->
+          let lbl = new_label() in
+          c_expr e1 (Kbranchifnot lbl::
+            c_expr e2 (Klabel lbl::cont))
+      | Lprim(Psequor, [e1;e2]) ->
+          let lbl = new_label() in
+          c_expr e1 (Kbranchif lbl::
+            c_expr e2 (Klabel lbl::cont))
+      | Lprim(Psetglobal id, [e]) ->
+          c_expr e (Ksetglobal id::cont)
+      | Lprim(Pmakeblock tag, ls) ->
+          c_expr_list ls (Kmakeblock(tag, List.length ls)::cont)
