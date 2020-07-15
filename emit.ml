@@ -34,4 +34,14 @@ let oooo w =
 
 let out_test_int = function
   | Peq -> opEQ
-  | Pn
+  | Pneq -> opNEQ
+  | Plt -> opLTINT
+  | Ple -> opLEINT
+  | Pgt -> opGTINT
+  | Pge -> opGEINT
+  | _ -> assert false
+
+let out_test_int_b = function
+  | Peq -> opBRANCHIFEQ
+  | Pneq -> opBRANCHIFNEQ
+  | Pl
