@@ -21,4 +21,17 @@ let o b =
   incr out_pos
 
 let oo w =
-  if w < -32768 || 32767 < 
+  if w < -32768 || 32767 < w then
+    displacement_overflow ()
+  else (
+    o w;
+    o (w lsr 8)
+  )
+
+let oooo w =
+  oo (w land 65535);
+  oo (w lsr 16 land 65535)
+
+let out_test_int = function
+  | Peq -> opEQ
+  | Pn
