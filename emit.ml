@@ -44,4 +44,14 @@ let out_test_int = function
 let out_test_int_b = function
   | Peq -> opBRANCHIFEQ
   | Pneq -> opBRANCHIFNEQ
-  | Pl
+  | Plt -> opBRANCHIFLT
+  | Ple -> opBRANCHIFLE
+  | Pgt -> opBRANCHIFGT
+  | Pge -> opBRANCHIFGE
+  | _ -> assert false
+
+let out_test_float = function
+  | Peq -> opEQFLOAT
+  | Pneq -> opNEQFLOAT
+  | Plt -> opLTFLOAT
+  | P
