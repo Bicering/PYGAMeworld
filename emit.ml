@@ -54,4 +54,13 @@ let out_test_float = function
   | Peq -> opEQFLOAT
   | Pneq -> opNEQFLOAT
   | Plt -> opLTFLOAT
-  | P
+  | Ple -> opLEFLOAT
+  | Pgt -> opGTFLOAT
+  | Pge -> opGEFLOAT
+  | _ -> assert false
+
+let out_test_string = function
+  | Peq -> opEQSTRING
+  | Pneq -> opNEQSTRING
+  | Plt -> opLTSTRING
+  | Ple -> opLE
