@@ -79,4 +79,12 @@ let extend_label_tbl l =
   let len = Array.length !label_tbl in
   let newtbl = Array.make ((l/len+1)*len) (Label_undefined []) in
   for i = 0 to len-1 do
-    newtbl.(i) <- (!l
+    newtbl.(i) <- (!label_tbl).(i)
+  done;
+  label_tbl := newtbl
+
+let define_label l =
+  if l >= Array.length !label_tbl then
+    extend_label_tbl l;
+  match (!label_tbl).(l) with
+  | Label_defined
