@@ -63,4 +63,15 @@ let out_test_string = function
   | Peq -> opEQSTRING
   | Pneq -> opNEQSTRING
   | Plt -> opLTSTRING
-  | Ple -> opLE
+  | Ple -> opLESTRING
+  | Pgt -> opGTSTRING
+  | Pge -> opGESTRING
+  | _ -> assert false
+
+(* label *)
+
+type label_def =
+  | Label_defined of int
+  | Label_undefined of (int * int) list
+
+let label_tb
