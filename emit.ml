@@ -74,4 +74,9 @@ type label_def =
   | Label_defined of int
   | Label_undefined of (int * int) list
 
-let label_tb
+let label_tbl = ref [||]
+let extend_label_tbl l =
+  let len = Array.length !label_tbl in
+  let newtbl = Array.make ((l/len+1)*len) (Label_undefined []) in
+  for i = 0 to len-1 do
+    newtbl.(i) <- (!l
