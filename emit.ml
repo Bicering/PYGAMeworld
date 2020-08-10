@@ -93,4 +93,12 @@ let define_label l =
       let curr_pos = !out_pos in
       (!label_tbl).(l) <- Label_defined curr_pos;
       List.iter (fun (pos,orig) ->
-        ou
+        out_pos := pos;
+        oo (curr_pos-orig)
+      ) ls;
+      out_pos := curr_pos
+
+(* orig must be aligned by 2 *)
+let out_label_with_orig orig l =
+  if l >= Array.length !label_tbl then
+    ext
