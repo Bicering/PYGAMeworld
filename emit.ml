@@ -87,4 +87,10 @@ let define_label l =
   if l >= Array.length !label_tbl then
     extend_label_tbl l;
   match (!label_tbl).(l) with
-  | Label_defined
+  | Label_defined _ ->
+      fatal_error "define_label: already defined"
+  | Label_undefined ls ->
+      let curr_pos = !out_pos in
+      (!label_tbl).(l) <- Label_defined curr_pos;
+      List.iter (fun (pos,orig) ->
+        ou
