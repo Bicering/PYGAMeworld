@@ -101,4 +101,13 @@ let define_label l =
 (* orig must be aligned by 2 *)
 let out_label_with_orig orig l =
   if l >= Array.length !label_tbl then
-    ext
+    extend_label_tbl l;
+  match (!label_tbl).(l) with
+  | Label_defined pos ->
+      oo (pos-orig)
+  | Label_undefined ls ->
+      (!label_tbl).(l) <- Label_undefined ((!out_pos,orig)::ls);
+      oo 0
+
+let out_label l =
+  if
