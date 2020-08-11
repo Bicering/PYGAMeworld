@@ -110,4 +110,13 @@ let out_label_with_orig orig l =
       oo 0
 
 let out_label l =
-  if
+  if !out_pos mod 2 <> 0 then
+    o 0;
+  out_label_with_orig !out_pos l
+
+(* relocation *)
+
+type reloc_entry =
+  | Reloc_const of constant
+  | Reloc_getglobal of long_ident
+  | R
