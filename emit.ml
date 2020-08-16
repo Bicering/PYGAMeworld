@@ -202,4 +202,9 @@ let rec emit code =
     | Kaccess n -> o opACCESS; o n
     | Kapply -> o opAPPLY
     | Kbranch l -> o opBRANCH; out_label l
-    | Kb
+    | Kbranchif l -> o opBRANCHIF; out_label l
+    | Kbranchifnot l -> o opBRANCHIFNOT; out_label l
+    | Kcur l -> o opCUR; out_label l
+    | Kdummy n -> o opDUMMY; o n
+    | Kendlet n -> o opENDLET; o n
+    
