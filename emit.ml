@@ -194,4 +194,12 @@ let rec emit code =
       o 0; (* [24,32) *)
       o (n lsl 4); (* [32,40) *)
       o (n lsr 4); (* [40,48) *)
-      o (n 
+      o (n lsr 12); (* [48,56) *)
+      o (n lsr 20) (* [56,64) *)
+    )
+  in
+  let inst = function
+    | Kaccess n -> o opACCESS; o n
+    | Kapply -> o opAPPLY
+    | Kbranch l -> o opBRANCH; out_label l
+    | Kb
