@@ -151,4 +151,15 @@ let slot_for_const c =
 let slot_for_getglobal id =
   if !out_pos mod 2 <> 0 then
     o 0;
-  enter_reloc (Reloc_getglo
+  enter_reloc (Reloc_getglobal id);
+  oo 0
+
+let slot_for_setglobal id =
+  if !out_pos mod 2 <> 0 then
+    o 0;
+  enter_reloc (Reloc_setglobal id);
+  oo 0
+
+let rec emit code =
+  let out_const_int i =
+    if -128 <= i && i < 12
