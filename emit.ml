@@ -119,4 +119,13 @@ let out_label l =
 type reloc_entry =
   | Reloc_const of constant
   | Reloc_getglobal of long_ident
-  | R
+  | Reloc_setglobal of long_ident
+  | Reloc_prim of string
+  | Reloc_tag of long_ident * int
+
+let relocs = ref []
+
+let enter_reloc info =
+  relocs := (!out_pos, info) :: !relocs
+
+let slot_for_prim n
