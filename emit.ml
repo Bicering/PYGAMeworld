@@ -140,4 +140,15 @@ let out_tag = function
   | Constr_tag_regular(n,t) ->
       o t
   | Constr_tag_extensible(id,stamp) ->
-      slot_for
+      slot_for_tag (id,stamp)
+
+let slot_for_const c =
+  if !out_pos mod 2 <> 0 then
+    o 0;
+  enter_reloc (Reloc_const c);
+  oo 0
+
+let slot_for_getglobal id =
+  if !out_pos mod 2 <> 0 then
+    o 0;
+  enter_reloc (Reloc_getglo
