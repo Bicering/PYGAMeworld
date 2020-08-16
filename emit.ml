@@ -128,4 +128,16 @@ let relocs = ref []
 let enter_reloc info =
   relocs := (!out_pos, info) :: !relocs
 
-let slot_for_prim n
+let slot_for_prim name =
+  enter_reloc (Reloc_prim name);
+  o 0
+
+let slot_for_tag (id,stamp) =
+  enter_reloc (Reloc_tag(id,stamp));
+  o 0
+
+let out_tag = function
+  | Constr_tag_regular(n,t) ->
+      o t
+  | Constr_tag_extensible(id,stamp) ->
+      slot_for
