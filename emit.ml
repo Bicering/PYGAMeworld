@@ -172,4 +172,12 @@ let rec emit code =
       o opGETGLOBAL;
       slot_for_const (Const_int i)
     )
-  i
+  in
+  let out_header tag n =
+    if Config.word_size = 32 then (
+      if !out_pos mod 4 <> 0 then
+        for i = !out_pos mod 4 to 3 do
+          o 0;
+        done;
+      out_tag tag; (* [0,8) *)
+      
