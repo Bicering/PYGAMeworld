@@ -162,4 +162,14 @@ let slot_for_setglobal id =
 
 let rec emit code =
   let out_const_int i =
-    if -128 <= i && i < 12
+    if -128 <= i && i < 128 then (
+      o opCONSTINT8;
+      o i
+    ) else if -32768 <= i && i < 32768 then (
+      o opCONSTINT16;
+      oo i
+    ) else (
+      o opGETGLOBAL;
+      slot_for_const (Const_int i)
+    )
+  i
