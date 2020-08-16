@@ -187,3 +187,11 @@ let rec emit code =
       if !out_pos mod 8 <> 0 then
         for i = !out_pos mod 8 to 7 do
           o 0;
+        done;
+      out_tag tag; (* [0,8) *)
+      o 0; (* [8,16) *)
+      o 0; (* [16,24) *)
+      o 0; (* [24,32) *)
+      o (n lsl 4); (* [32,40) *)
+      o (n lsr 4); (* [40,48) *)
+      o (n 
