@@ -236,4 +236,10 @@ let rec emit code =
         | Pfloat(Pdivfloat) -> o opDIVFLOAT
         | Pgetarrayitem ->
             o opGETARRAYITEM
-        
+        | Pgetstringitem ->
+            o opGETSTRINGITEM
+        | Pidentity -> ()
+        | Pincr -> o opINCR
+        | Plslint -> o opLSLINT
+        | Plsrint -> o opLSRINT
+        | Pmakearray init
