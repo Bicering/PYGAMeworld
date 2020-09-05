@@ -256,4 +256,12 @@ let rec emit code =
             o opRAISE
         | Psetfield n ->
             o opSETFIELD; o n
-        | Psetarrayit
+        | Psetarrayitem ->
+            o opSETARRAYITEM
+        | Psetstringitem ->
+            o opSETSTRINGITEM
+        | Pstringlength ->
+            o opSTRINGLENGTH
+        | Psubint -> o opSUBINT
+        | Ptest t ->
+  
