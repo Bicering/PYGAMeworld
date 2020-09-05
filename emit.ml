@@ -242,4 +242,11 @@ let rec emit code =
         | Pincr -> o opINCR
         | Plslint -> o opLSLINT
         | Plsrint -> o opLSRINT
-        | Pmakearray init
+        | Pmakearray init ->
+            o opMAKEARRAY;
+            o (if init then 1 else 0)
+        | Pmakestring ->
+            o opMAKESTRING
+        | Pmodint -> o opMODINT
+        | Pmulint -> o opMULINT
+        | Pnegint
