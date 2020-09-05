@@ -249,4 +249,11 @@ let rec emit code =
             o opMAKESTRING
         | Pmodint -> o opMODINT
         | Pmulint -> o opMULINT
-        | Pnegint
+        | Pnegint -> o opNEGINT
+        | Pnot -> o opNOT
+        | Porint -> o opORINT
+        | Praise ->
+            o opRAISE
+        | Psetfield n ->
+            o opSETFIELD; o n
+        | Psetarrayit
