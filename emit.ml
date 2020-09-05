@@ -212,4 +212,10 @@ let rec emit code =
     | Klabel l -> define_label l
     | Klet -> o opLET
     | Kmakeblock(tag,n) -> o opMAKEBLOCK; out_header tag n
-    |
+    | Kpoptrap -> o opPOPTRAP
+    | Kprim prim ->
+        begin match prim with
+        | Paddint -> o opADDINT
+        | Pandint -> o opANDINT
+        | Pasrint -> o opASRINT
+        | Pccall(ari
