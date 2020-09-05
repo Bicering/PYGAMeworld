@@ -231,4 +231,9 @@ let rec emit code =
         | Pfield n ->
             o opGETFIELD; o n
         | Pfloat(Paddfloat) -> o opADDFLOAT
-     
+        | Pfloat(Psubfloat) -> o opSUBFLOAT
+        | Pfloat(Pmulfloat) -> o opMULFLOAT
+        | Pfloat(Pdivfloat) -> o opDIVFLOAT
+        | Pgetarrayitem ->
+            o opGETARRAYITEM
+        
