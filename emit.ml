@@ -218,4 +218,10 @@ let rec emit code =
         | Paddint -> o opADDINT
         | Pandint -> o opANDINT
         | Pasrint -> o opASRINT
-        | Pccall(ari
+        | Pccall(arity,name) ->
+            if arity <= 4 then (
+              o (opCCALL1+arity-1);
+              slot_for_prim name
+            ) else
+              not_implemented()
+        | Pdecr -
