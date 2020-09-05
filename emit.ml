@@ -207,4 +207,9 @@ let rec emit code =
     | Kcur l -> o opCUR; out_label l
     | Kdummy n -> o opDUMMY; o n
     | Kendlet n -> o opENDLET; o n
-    
+    | Kgetglobal id -> o opGETGLOBAL; slot_for_getglobal id
+    | Kgrab -> o opGRAB
+    | Klabel l -> define_label l
+    | Klet -> o opLET
+    | Kmakeblock(tag,n) -> o opMAKEBLOCK; out_header tag n
+    |
