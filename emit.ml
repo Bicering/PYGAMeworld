@@ -224,4 +224,11 @@ let rec emit code =
               slot_for_prim name
             ) else
               not_implemented()
-        | Pdecr -
+        | Pdecr -> o opDECR
+        | Pdivint -> o opDIVINT
+        | Pdummy n ->
+            o opDUMMY; o n
+        | Pfield n ->
+            o opGETFIELD; o n
+        | Pfloat(Paddfloat) -> o opADDFLOAT
+     
