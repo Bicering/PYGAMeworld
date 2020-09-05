@@ -264,4 +264,9 @@ let rec emit code =
             o opSTRINGLENGTH
         | Psubint -> o opSUBINT
         | Ptest t ->
-  
+            o begin match t with
+            | Ptest_eq -> opEQ
+            | Ptest_neq -> opNEQ
+            | Ptest_int t -> out_test_int t
+            | Ptest_float t -> out_test_float t
+            | Ptest_s
