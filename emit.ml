@@ -269,4 +269,11 @@ let rec emit code =
             | Ptest_neq -> opNEQ
             | Ptest_int t -> out_test_int t
             | Ptest_float t -> out_test_float t
-            | Ptest_s
+            | Ptest_string t -> out_test_string t
+            | _ -> assert false
+            end
+        | Pxorint -> o opXORINT
+        | _ ->
+            dump_prim 3 prim;
+            fatal_error "TODO"
+        end
