@@ -277,3 +277,13 @@ let rec emit code =
             dump_prim 3 prim;
             fatal_error "TODO"
         end
+    | Kpush -> o opPUSH
+    | Kpushmark -> o opPUSHMARK
+    | Kpushtrap l ->
+        o opPUSHTRAP;
+        out_label l
+    | Kquote c ->
+        begin match c with
+        | Const_block t ->
+            o opATOM;
+ 
