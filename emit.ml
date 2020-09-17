@@ -291,4 +291,10 @@ let rec emit code =
             match c with
             | Const_char x -> out_const_int (int_of_char x)
             | Const_int x -> out_const_int x
-            | Const_float x -> o opGETGLOBAL; s
+            | Const_float x -> o opGETGLOBAL; slot_for_const c
+            | Const_string x -> o opGETGLOBAL; slot_for_const c
+        end
+    | Kreturn -> o opRETURN
+    | Ksetglobal id -> o opSETGLOBAL; slot_for_setglobal id
+    | Kswitch ls ->
+        o opSWI
