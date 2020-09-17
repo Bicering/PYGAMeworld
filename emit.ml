@@ -297,4 +297,12 @@ let rec emit code =
     | Kreturn -> o opRETURN
     | Ksetglobal id -> o opSETGLOBAL; slot_for_setglobal id
     | Kswitch ls ->
-        o opSWI
+        o opSWITCH;
+        o (Array.length ls);
+        if !out_pos mod 2 <> 0 then
+          o 0;
+        let orig = !out_pos in
+        Array.iter (out_label_with_orig orig) ls
+    | Ktermapply -> o opTERMAPPLY
+    | Ktest(tst,l) ->
+ 
