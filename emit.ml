@@ -286,4 +286,9 @@ let rec emit code =
         begin match c with
         | Const_block t ->
             o opATOM;
- 
+            o t
+        | Const_base c ->
+            match c with
+            | Const_char x -> out_const_int (int_of_char x)
+            | Const_int x -> out_const_int x
+            | Const_float x -> o opGETGLOBAL; s
