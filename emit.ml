@@ -311,4 +311,8 @@ let rec emit code =
             o opEQ; o opPOPBRANCHIFNOT; out_label l
         | Ptest_int t ->
             o (out_test_int_b t);
-  
+            out_label l
+        | Ptest_float(Pneqimm x) ->
+            o opPUSH; o opPUSH; o opGETGLOBAL; slot_for_const (Const_float x);
+            o opEQFLOAT; o opPOPBRANCHIFNOT; out_label l
+ 
