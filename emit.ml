@@ -305,4 +305,10 @@ let rec emit code =
         Array.iter (out_label_with_orig orig) ls
     | Ktermapply -> o opTERMAPPLY
     | Ktest(tst,l) ->
- 
+        begin match tst with
+        | Ptest_int(Pneqimm x) ->
+            o opPUSH; o opPUSH; out_const_int x;
+            o opEQ; o opPOPBRANCHIFNOT; out_label l
+        | Ptest_int t ->
+            o (out_test_int_b t);
+  
