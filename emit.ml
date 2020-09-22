@@ -347,4 +347,11 @@ let abs_out_pos = ref 0
 
 let start_emit_phrase oc =
   phr_idx := [];
-  if Co
+  if Config.word_size = 32 then
+    output_string oc Config.obj_magic32
+  else
+    output_string oc Config.obj_magic64;
+  output_bin_int oc 0; (* placeholder of size *)
+  abs_out_pos := 8
+
+let em
