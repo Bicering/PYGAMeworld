@@ -372,4 +372,13 @@ let emit_phrase oc (init,fcts) =
     done;
   output oc !out_buf 0 !out_pos;
   phr_idx := {
-    cph_pos = !abs_out_po
+    cph_pos = !abs_out_pos;
+    cph_len = !out_pos;
+    cph_reloc = !relocs
+  } :: !phr_idx;
+  abs_out_pos := !abs_out_pos + !out_pos
+
+let end_emit_phrase oc =
+  output_value oc (List.rev !phr_idx);
+  seek_out oc 4;
+  output_bin_int oc !ab
