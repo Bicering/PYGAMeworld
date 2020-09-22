@@ -334,4 +334,17 @@ let rec emit code =
   in
   List.iter inst code
 
-(* phrase
+(* phrase *)
+
+type compiled_phrase = {
+  cph_pos: int;
+  cph_len: int;
+  cph_reloc: (int * reloc_entry) list
+}
+
+let phr_idx = ref []
+let abs_out_pos = ref 0
+
+let start_emit_phrase oc =
+  phr_idx := [];
+  if Co
