@@ -324,4 +324,14 @@ let rec emit code =
         | Ptest_string t ->
             o (out_test_string t);
             o opBRANCHIF; out_label l
-        | Ptest_noteqt
+        | Ptest_noteqtag tag ->
+            o opBRANCHIFNEQTAG;
+            out_tag tag;
+            out_label l
+        | _ -> assert false
+        end
+    | Kupdate n -> o opUPDATE; o n
+  in
+  List.iter inst code
+
+(* phrase
