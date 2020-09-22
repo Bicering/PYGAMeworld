@@ -315,4 +315,9 @@ let rec emit code =
         | Ptest_float(Pneqimm x) ->
             o opPUSH; o opPUSH; o opGETGLOBAL; slot_for_const (Const_float x);
             o opEQFLOAT; o opPOPBRANCHIFNOT; out_label l
- 
+        | Ptest_float t ->
+            o (out_test_float t);
+            o opBRANCHIF; out_label l
+        | Ptest_string(Pneqimm x) ->
+            o opPUSH; o opPUSH; o opGETGLOBAL; slot_for_const (Const_string x);
+  
