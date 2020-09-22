@@ -354,4 +354,14 @@ let start_emit_phrase oc =
   output_bin_int oc 0; (* placeholder of size *)
   abs_out_pos := 8
 
-let em
+let emit_phrase oc (init,fcts) =
+  out_pos := 0;
+  relocs := [];
+  label_tbl := [|Label_undefined []|];
+  if fcts = [] then
+    emit init
+  else (
+    emit init;
+    emit [Kbranch 0];
+    emit fcts;
+    emit [Kla
