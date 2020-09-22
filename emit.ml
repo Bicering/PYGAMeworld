@@ -364,4 +364,12 @@ let emit_phrase oc (init,fcts) =
     emit init;
     emit [Kbranch 0];
     emit fcts;
-    emit [Kla
+    emit [Klabel 0]
+  );
+  if !out_pos mod Config.sizeof_word <> 0 then
+    for i = !out_pos mod Config.sizeof_word to Config.sizeof_word-1 do
+      o opNOP;
+    done;
+  output oc !out_buf 0 !out_pos;
+  phr_idx := {
+    cph_pos = !abs_out_po
