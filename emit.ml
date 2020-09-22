@@ -320,4 +320,8 @@ let rec emit code =
             o opBRANCHIF; out_label l
         | Ptest_string(Pneqimm x) ->
             o opPUSH; o opPUSH; o opGETGLOBAL; slot_for_const (Const_string x);
-  
+            o opEQSTRING; o opPOPBRANCHIFNOT; out_label l
+        | Ptest_string t ->
+            o (out_test_string t);
+            o opBRANCHIF; out_label l
+        | Ptest_noteqt
