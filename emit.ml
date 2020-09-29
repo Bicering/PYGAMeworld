@@ -381,4 +381,4 @@ let emit_phrase oc (init,fcts) =
 let end_emit_phrase oc =
   output_value oc (List.rev !phr_idx);
   seek_out oc 4;
-  output_bin_int oc !ab
+  output_bin_int oc !abs_out_pos
