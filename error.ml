@@ -179,3 +179,34 @@ let type_arity_err loc c params =
 
 let application_of_non_function_err e ty =
   begin try
+    filter_arrow ty |> ignore;
+    Printf.eprintf "%aThis function is applied to too many arguments.\n"
+      output_location e.e_loc
+  with Unify ->
+    Printf.eprintf "%aThis expression is not a function, it cannot be applied.\n"
+      output_location e.e_loc
+  end;
+  raise Toplevel
+
+let unbound_value_err loc id =
+  Printf.eprintf "%aThe value identifier %a is unbound.\n" 
+    output_location loc
+    output_long_ident id;
+  raise Toplevel
+
+let unbound_constr_err loc id =
+  Printf.eprintf "%aThe constructor %a is unbound.\n"
+    output_location loc
+    output_long_ident id;
+  raise Toplevel
+
+let unbound_type_constr_err loc id =
+  Printf.eprintf "%aThe type constructor %a is unbound.\n"
+    output_location loc
+    output_long_ident id;
+  raise Toplevel
+
+let unbound_type_var_err v te =
+  Printf.eprintf "%aThe type variable %s is unbound.\n"
+    output_location te.te_loc v;
+  raise Toplevel
