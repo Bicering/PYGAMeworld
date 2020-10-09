@@ -48,4 +48,14 @@ module List = struct
     acc, List.rev ys
 end
 
-(* 
+(* deque *)
+
+type 'a deque = 'a list * 'a list
+
+let emptyq = [], []
+let pushl x (xs,ys) = x::xs, ys
+let pushr x (xs,ys) = xs, x::ys
+let viewl = function
+  | [], [] ->
+      None
+  | [],
