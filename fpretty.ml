@@ -19,4 +19,13 @@ module List = struct
     | [x] -> x
     | x::xs -> last xs
   let split_at k xs =
-  
+    let rec go l k = function
+      | xs when k = 0 ->
+          List.rev l, xs
+      | [] ->
+          List.rev l, []
+      | x::xs ->
+          go (x::l) (k-1) xs
+    in
+    go [] k xs
+  let iota n 
