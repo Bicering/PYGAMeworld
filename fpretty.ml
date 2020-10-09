@@ -86,4 +86,15 @@ type doc =
   | Nil
   | Line of int
   | Char of char
-  | Tex
+  | Text of string
+  | Cat of doc * doc
+  | Group of doc
+  | Nest of int * doc
+  | Align of int * doc
+
+let empty = Nil
+let line = Line 1
+let linebreak = Line 0
+let char c = Char c
+let text t = Text t
+let (<.>) x y = Cat (x,
