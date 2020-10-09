@@ -37,4 +37,15 @@ module List = struct
     in
     go [] n
   let map_accuml_rev f acc xs =
-    let acc, ys = List.fold_left (
+    let acc, ys = List.fold_left (fun (acc,ys) x ->
+      let acc, y = f acc x in
+      acc, y::ys
+    ) (acc,[]) xs
+    in
+    acc, ys
+  let map_accuml f acc xs =
+    let acc, ys = map_accuml_rev f acc xs in
+    acc, List.rev ys
+end
+
+(* 
