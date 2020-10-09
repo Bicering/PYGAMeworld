@@ -74,4 +74,16 @@ let viewr = function
   | xs, [] ->
       let n = List.length xs in
       let xs, ys = List.split_at (n/2) xs in
-      (match Lis
+      (match List.rev ys with
+      | y::ys ->
+          Some (y, (xs,ys))
+      | _ -> assert false
+      )
+  | xs, y::ys ->
+      Some (y, (xs,ys))
+
+type doc =
+  | Nil
+  | Line of int
+  | Char of char
+  | Tex
