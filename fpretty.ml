@@ -64,4 +64,14 @@ let viewl = function
       (match List.rev xs with
       | x::xs ->
           Some (x, (xs,ys))
-      | _ -> assert 
+      | _ -> assert false
+      )
+  | x::xs, ys ->
+      Some (x, (xs,ys))
+let viewr = function
+  | [], [] ->
+      None
+  | xs, [] ->
+      let n = List.length xs in
+      let xs, ys = List.split_at (n/2) xs in
+      (match Lis
