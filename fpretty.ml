@@ -58,4 +58,10 @@ let pushr x (xs,ys) = xs, x::ys
 let viewl = function
   | [], [] ->
       None
-  | [],
+  | [], ys ->
+      let n = List.length ys in
+      let ys, xs = List.split_at (n/2) ys in
+      (match List.rev xs with
+      | x::xs ->
+          Some (x, (xs,ys))
+      | _ -> assert 
