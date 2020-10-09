@@ -28,4 +28,13 @@ module List = struct
           go (x::l) (k-1) xs
     in
     go [] k xs
-  let iota n 
+  let iota n =
+    let rec go acc n =
+      if n = 0 then
+        acc
+      else
+        go ((n-1)::acc) (n-1)
+    in
+    go [] n
+  let map_accuml_rev f acc xs =
+    let acc, ys = List.fold_left (
