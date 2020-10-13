@@ -97,4 +97,14 @@ let line = Line 1
 let linebreak = Line 0
 let char c = Char c
 let text t = Text t
-let (<.>) x y = Cat (x,
+let (<.>) x y = Cat (x, y)
+let group x = Group x
+let nest i x = Nest (i, x)
+let align x = Align (0, x)
+
+let space = Char ' '
+let softline = group line
+let softbreak = group linebreak
+let lbrace = Char '{'
+let rbrace = Char '}'
+let lbracket = Char 
