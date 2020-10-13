@@ -150,4 +150,14 @@ let rec enclose_sep_a l r sep a =
   else
     let rec go acc i =
       if i = n then
-        ac
+        acc
+      else
+        go (acc <.> sep <.> a.(i)) (i+1)
+    in
+    align (go (l <.> a.(0)) 1 <.> r)
+
+let rec len = function
+  | Nil -> 0
+  | Char _ -> 1
+  | Text t -> String.length t
+  | 
