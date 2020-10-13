@@ -121,4 +121,13 @@ let (<+>) x y = x <.> text " " <.> y
 let (<$>) x y = x <.> line <.> y
 let (<$$>) x y = x <.> linebreak <.> y
 let (</>) x y = x <.> softline <.> y
-let (<//>) x y = x <.
+let (<//>) x y = x <.> softbreak <.> y
+let enclose l r x = l <.> x <.> r
+let fill_sep = List.fold_left (</>) empty
+
+let rec sep_by sep = function
+  | [] -> empty
+  | x::xs ->
+    let rec go acc = function
+      | [] -> acc
+   
