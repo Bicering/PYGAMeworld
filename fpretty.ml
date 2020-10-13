@@ -139,4 +139,15 @@ let rec enclose_sep l r sep = function
   | x::xs ->
     let rec go acc = function
       | [] -> acc
-      | x::xs -> go (acc <.> 
+      | x::xs -> go (acc <.> sep <.> x) xs
+    in
+    align (go (l <.> x) xs <.> r) <.> Align (-10, empty)
+
+let rec enclose_sep_a l r sep a =
+  let n = Array.length a in
+  if n = 0 then
+    l <.> r
+  else
+    let rec go acc i =
+      if i = n then
+        ac
