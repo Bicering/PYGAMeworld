@@ -130,4 +130,13 @@ let rec sep_by sep = function
   | x::xs ->
     let rec go acc = function
       | [] -> acc
-   
+      | x::xs -> go (acc <.> sep <.> x) xs
+    in
+    align (go x xs)
+
+let rec enclose_sep l r sep = function
+  | [] -> l <.> r
+  | x::xs ->
+    let rec go acc = function
+      | [] -> acc
+      | x::xs -> go (acc <.> 
