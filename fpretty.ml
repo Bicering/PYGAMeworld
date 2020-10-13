@@ -160,4 +160,11 @@ let rec len = function
   | Nil -> 0
   | Char _ -> 1
   | Text t -> String.length t
-  | 
+  | Cat (x, y) -> len x + len y
+  | _ -> assert false
+
+let normalize x =
+  (* ensure y and (fst result) only built from text,nil and Cat *)
+  let rec go x y =
+    match x with
+    | Nil -> y, Nil
