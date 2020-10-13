@@ -115,4 +115,10 @@ let lparen = Char '('
 let rparen = Char ')'
 let semicolon = Char ';'
 let comma = Char ','
-let int i = T
+let int i = Text (string_of_int i)
+
+let (<+>) x y = x <.> text " " <.> y
+let (<$>) x y = x <.> line <.> y
+let (<$$>) x y = x <.> linebreak <.> y
+let (</>) x y = x <.> softline <.> y
+let (<//>) x y = x <.
