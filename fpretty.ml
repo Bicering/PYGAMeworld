@@ -168,3 +168,11 @@ let normalize x =
   let rec go x y =
     match x with
     | Nil -> y, Nil
+    | Line _ -> Nil, x <.> y
+    | Char _ | Text _ -> x <.> y, Nil
+    | Cat (u,v) ->
+        let l2,r2 = go v y in
+        let l1,r1 = go u l2 in
+        l1, r1 <.> r2
+    | Group u ->
+        let l,r = go u y
