@@ -175,4 +175,16 @@ let normalize x =
         let l1,r1 = go u l2 in
         l1, r1 <.> r2
     | Group u ->
-        let l,r = go u y
+        let l,r = go u y in
+        l, Group r
+    | Nest (i,u) ->
+        let l,r = go u y in
+        l, Nest (i, r)
+    | Align (i,u) ->
+        let l,r = go u y in
+        l, Align (i-len l, r)
+  in
+  let l, r = go x Nil in
+  l <.> r
+
+type po
