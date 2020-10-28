@@ -187,4 +187,10 @@ let normalize x =
   let l, r = go x Nil in
   l <.> r
 
-type po
+type pos = int
+type remaining = int
+type indentation = int list
+type horizontal = bool
+type out = remaining -> indentation -> unit
+type outg = horizontal -> out -> out
+type dq = (pos*outg) 
