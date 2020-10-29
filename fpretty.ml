@@ -199,4 +199,13 @@ type tree_cont = pos -> dq -> out
 let render w x =
   let buf = Buffer.create 0 in
   let rec interpret doc (w:int) (tc:tree_cont) (p:pos) (dq:dq) : out =
-    let rec prune (tc:tree_cont) (p:pos) (dq:dq) (r:rema
+    let rec prune (tc:tree_cont) (p:pos) (dq:dq) (r:remaining) =
+      match viewl dq with
+      | None -> tc p dq r
+      | Some ((s,outg),dq') ->
+          if s+r < p then
+            outg false (prune tc p dq') r
+          else
+            tc p dq r
+    in
+ 
