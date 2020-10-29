@@ -193,4 +193,10 @@ type indentation = int list
 type horizontal = bool
 type out = remaining -> indentation -> unit
 type outg = horizontal -> out -> out
-type dq = (pos*outg) 
+type dq = (pos*outg) deque
+type tree_cont = pos -> dq -> out
+
+let render w x =
+  let buf = Buffer.create 0 in
+  let rec interpret doc (w:int) (tc:tree_cont) (p:pos) (dq:dq) : out =
+    let rec prune (tc:tree_cont) (p:pos) (dq:dq) (r:rema
