@@ -208,4 +208,9 @@ let render w x =
           else
             tc p dq r
     in
- 
+    let extend cont1 cont2 outg (tc:tree_cont) (p:pos) (dq:dq) =
+      (match viewr dq with
+      | None ->
+          outg false (cont1 tc p dq)
+      | Some ((s,outg2),dq') ->
+          let outg' h c r = outg2 h
