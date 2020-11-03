@@ -213,4 +213,12 @@ let render w x =
       | None ->
           outg false (cont1 tc p dq)
       | Some ((s,outg2),dq') ->
-          let outg' h c r = outg2 h
+          let outg' h c r = outg2 h (outg h c) r in
+          cont2 tc p (pushr (s, outg') dq')
+      )
+    in
+    let leave (tc:tree_cont) (p:pos) (dq:dq) =
+      match viewr dq with
+      | None ->
+          tc p dq
+      | Some (
