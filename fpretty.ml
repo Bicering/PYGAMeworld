@@ -221,4 +221,9 @@ let render w x =
       match viewr dq with
       | None ->
           tc p dq
-      | Some (
+      | Some ((s1,outg1),dq1) ->
+          (match viewr dq1 with
+          | None ->
+              outg1 true (tc p emptyq)
+          | Some ((s2,outg2),dq2) ->
+              let outg' h c = outg2 h (fun r1 -> outg1 (p
