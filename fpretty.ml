@@ -236,4 +236,9 @@ let render w x =
         tc p dq
     | Line l ->
         let outg h c r i =
-         
+          if h then (
+            Buffer.add_string buf @@ String.make l ' ';
+            c (r-l) i
+          ) else (
+            Buffer.add_char buf '\n';
+            Buffer.add_string buf @@ 
