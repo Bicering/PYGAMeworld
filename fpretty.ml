@@ -226,4 +226,14 @@ let render w x =
           | None ->
               outg1 true (tc p emptyq)
           | Some ((s2,outg2),dq2) ->
-              let outg' h c = outg2 h (fun r1 -> outg1 (p
+              let outg' h c = outg2 h (fun r1 -> outg1 (p <= s2+r1) c r1) in
+              tc p (pushr (s2,outg') dq2)
+          )
+    in
+    let id x = x in
+    match doc with
+    | Nil ->
+        tc p dq
+    | Line l ->
+        let outg h c r i =
+         
