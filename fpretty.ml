@@ -249,4 +249,12 @@ let render w x =
     | Char ch ->
         let outg h c r i =
           Buffer.add_char buf ch;
-          c 
+          c (r-1) i
+        in
+        extend id prune outg tc (p+1) dq
+    | Text t ->
+        let l = String.length t in
+        let outg h c r i =
+          Buffer.add_string buf t;
+          c (r-l) i
+        
