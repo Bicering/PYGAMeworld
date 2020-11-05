@@ -241,4 +241,12 @@ let render w x =
             c (r-l) i
           ) else (
             Buffer.add_char buf '\n';
-            Buffer.add_string buf @@ 
+            Buffer.add_string buf @@ String.make (List.hd i) ' ';
+            c (w-List.hd i) i
+          )
+        in
+        extend id prune outg tc (p+l) dq
+    | Char ch ->
+        let outg h c r i =
+          Buffer.add_char buf ch;
+          c 
