@@ -257,4 +257,9 @@ let render w x =
         let outg h c r i =
           Buffer.add_string buf t;
           c (r-l) i
-        
+        in
+        extend id prune outg tc (p+l) dq
+    | Cat (x,y) ->
+        interpret x w (interpret y w tc) p dq
+    | Group x ->
+        interpret x w (leave tc) p (pushr (p, fun h c -> c) 
