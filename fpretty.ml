@@ -273,4 +273,11 @@ let render w x =
         let undo h c r i = c r (List.tl i) in
         let f tc = interpret x w (extend id id undo tc) in
         extend f f outg tc p dq
- 
+  in
+  interpret (normalize x) w (fun p dq r i -> ()) 0 emptyq w [0];
+  Buffer.contents buf
+
+let pretty = render
+let take n s = String.sub s 0 n
+
+let prop0 = pretty 6 (group (text "Hi" <.> line <.> text "you") <.
