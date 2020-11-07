@@ -268,4 +268,9 @@ let render w x =
         let undo h c r i = c r (List.tl i) in
         let f tc = interpret x w (extend id id undo tc) in
         extend f f outg tc p dq
-    | Al
+    | Align (j,x) ->
+        let outg h c r i = c r ((w-r+j)::i) in
+        let undo h c r i = c r (List.tl i) in
+        let f tc = interpret x w (extend id id undo tc) in
+        extend f f outg tc p dq
+ 
