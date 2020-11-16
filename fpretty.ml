@@ -280,4 +280,10 @@ let render w x =
 let pretty = render
 let take n s = String.sub s 0 n
 
-let prop0 = pretty 6 (group (text "Hi" <.> line <.> text "you") <.
+let prop0 = pretty 6 (group (text "Hi" <.> line <.> text "you") <.> text "!") =
+        "Hi\nyou!"
+let prop1 = pretty 4 (group (text "hi" <.> line <.> text "world")) =
+        "hi\nworld"
+let prop2 = 
+  pretty 8 (group (text "hi" <.> line <.> text "world") <.> text "liness") =
+  "hi\n
