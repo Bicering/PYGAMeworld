@@ -286,4 +286,9 @@ let prop1 = pretty 4 (group (text "hi" <.> line <.> text "world")) =
         "hi\nworld"
 let prop2 = 
   pretty 8 (group (text "hi" <.> line <.> text "world") <.> text "liness") =
-  "hi\n
+  "hi\nworldliness"
+let prop3 = 
+  take 6 (pretty 4 (group (text "hi" <.> line <.> text "you" <.> empty))) =
+  "hi\nyou"
+let prop4 = 
+  take 6 (pretty 4 (group (text "hi" <.> line) <.
