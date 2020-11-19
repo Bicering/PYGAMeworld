@@ -299,4 +299,9 @@ let prop5 =
            group (line <.> text "you" <.> empty)))) =
   "hi\nyou"
 let prop6 = 
-  take 7 (p
+  take 7 (pretty 3 (group (text "hi" <.> line <.> 
+           group (line <.> text "you" <.> empty)))) =
+  "hi\n\nyou"
+let prop7 = 
+  pretty 10 (group (text "what" <.>
+    align (group (text "do" <.> line <.> text 
