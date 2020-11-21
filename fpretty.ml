@@ -315,4 +315,5 @@ let prop8 =
 
 let prop9 =
   pretty 10 (group (text "one " <.> (nest 2 (line <.> text "two" <.>
-    nest 3 (line <.> te
+    nest 3 (line <.> text "three"))))) =
+  "one \n  two\n     three"
