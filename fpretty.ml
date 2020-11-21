@@ -304,4 +304,9 @@ let prop6 =
   "hi\n\nyou"
 let prop7 = 
   pretty 10 (group (text "what" <.>
-    align (group (text "do" <.> line <.> text 
+    align (group (text "do" <.> line <.> text "you" <.> line <.> 
+      text "do" <.> align (line <.> text "now?"))))) =
+  "whatdo\n    you\n    do\n      now?"
+
+let prop8 = 
+  pretty 10 (group (text "one " <.> (align (line <.> 
