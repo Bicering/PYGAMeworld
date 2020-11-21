@@ -309,4 +309,10 @@ let prop7 =
   "whatdo\n    you\n    do\n      now?"
 
 let prop8 = 
-  pretty 10 (group (text "one " <.> (align (line <.> 
+  pretty 10 (group (text "one " <.> (align (line <.> text "two" <.> 
+    align (line <.> text "three"))))) =
+  "one \n    two\n       three"
+
+let prop9 =
+  pretty 10 (group (text "one " <.> (nest 2 (line <.> text "two" <.>
+    nest 3 (line <.> te
