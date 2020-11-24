@@ -368,3 +368,36 @@ and transl_match_check loc env psas =
   let rows = List.map (fun (ps,act) ->
     ps, transl_expr (make_env env ps) act) psas in
   translate_matching (partial_fun loc) env rows
+
+let translate_expr = transl_expr []
+
+(* toplevel letdef *)
+
+let rec make_sequence f = function
+  | [] -> Lconst(Const_block 0)
+  | [x] -> f x
+  | x::xs -> Lsequence(f x, make_sequence f xs)
+
+let translate_letdef loc isrec binds =
+  let rec extract_var p =
+    match p.p_desc with
+    | Ppat_var v -> v
+    | Ppat_constraint(p,_) -> extract_var p
+    | _ -> illegal_letrec_pat p.p_loc
+  in
+  if isrec then
+    let ves = List.map (fun (p,e) -> extract_var p, e) binds in
+    make_sequence (fun (v,e) ->
+      Lprim(Psetglobal(Lident v), [translate_expr e])) ves
+  else
+    match binds with
+    | [{ p_desc=Ppat_var v }, e] -> (* let var = expr *)
+        (* TODO module *)
+        Lprim(Psetglobal(Lident v), [translate_expr e])
+    | _ ->
+        let ps = List.map fst binds in
+        let vars = List.map free_vars_of_pat ps |> List.concat in
+        let env = List.fold_left (fun env p -> paths_of_pat [] p :: env) [] ps in
+        let store var = Lprim(Psetglobal(Lident var), [transl_access env var]) in
+        Llet(transl_bind [] binds,
+          translate_matching (partial_fun loc) [] [ps, make_sequence store vars])
