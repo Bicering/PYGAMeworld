@@ -18,4 +18,12 @@ let add_global_value vd =
   vd.qualid
   vd
 
-let add_global_type td 
+let add_global_type td =
+  Hashtbl.replace all_types
+  td.qualid
+  td
+
+let add_global_constr cd =
+  Hashtbl.replace all_constrs
+  cd.qualid
+  cd
