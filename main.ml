@@ -146,3 +146,34 @@ let () =
   let exe = ref "a.out" in
   let opts =
     [ "-c", Arg.Unit(fun () -> compile_only := true), "compile only"
+    ; "-d", Arg.Int(fun i -> stage := i), "stage. 0:lex; 1:ast; 2:lambda; 3:zinc; 4:bytecode"
+    ; "-o", Arg.String(fun file -> exe := file), "bytecode executable output file"
+    ; "-p", Arg.Unit(fun () -> pretty := true), "pretty print sources"
+    ; "-w", Arg.Int(fun i -> width := i), "page width (used by pretty printer)"
+    ; "-v", Arg.Unit(fun () -> Implementation.verbose := true), "verbose"
+    ]
+  in
+  Arg.parse opts
+    (fun file -> files := file :: !files)
+    program_desc;
+  if !files = [] then (
+    prerr_string @@ Arg.usage_string opts program_desc;
+    exit 1
+  ) else (
+    let objs = ref [] in
+    let files = List.rev !files in
+    List.iter (fun file ->
+      if Filename.check_suffix file ".ml" then
+        objs := compile_file file :: !objs
+      else if Filename.check_suffix file ".zo" then
+        objs := file :: !objs
+      else
+        fatal_error "Input files should be source files (\"*.ml\") or object files (\"*.zo\")."
+    ) files;
+    if !stage >= 4 && not !compile_only && not !pretty then (
+      if !verbose then
+        Printf.printf "Linking %s -> %s\n" (String.concat " " !objs) !exe;
+      Ld.init ();
+      Ld.link !objs !exe
+    )
+  )
