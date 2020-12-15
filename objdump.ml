@@ -151,3 +151,129 @@ let iiii ic =
 let iiii' ic =
   let bs = Array.init 8 (fun _ -> input_byte ic |> Int64.of_int) in
   Array.fold_right (fun b acc -> Int64.(add (mul acc 256L) b)) bs 0L
+
+let print_value ic slot =
+  let kind = input_byte ic in
+  Printf.printf "  %d:\n" slot;
+  if Config.word_size = 32 then
+    match kind with
+    | 1 ->
+        let x = iiii ic in
+        if Int32.logand x 1l = 0l then
+          assert false
+        else
+          Printf.printf "    int: %ld\n" Int32.(div (sub x 1l) 2l)
+    | 0 ->
+        let hd = iiii ic in
+        let tag = tag_hd hd in
+        Printf.printf "    header: %08lx\n" hd;
+        Printf.printf "    tag: %s\n" (name_tag tag);
+        if tag = double_tag then (
+          let x = Int64.float_of_bits (iiii' ic) in
+          Printf.printf "    size: %d\n" (size_hd hd);
+          Printf.printf "    float: %f\n" x
+        ) else if tag = string_tag then (
+          let size = string_size_hd hd in
+          Printf.printf "    size: %d\n" size;
+          print_string "    string: ";
+          for i = 1 to 4*(size-1) do
+            print_string @@ Char.escaped (input_char ic)
+          done;
+          let bs = Array.init 4 (fun _ -> input_byte ic) in
+          for i = 0 to 3-bs.(3) do
+            print_string @@ Char.escaped @@ char_of_int bs.(i)
+          done;
+          print_char '\n'
+        ) else (
+          let size = size_hd hd in
+          Printf.printf "    size: %d\n" size;
+          for i = 1 to size do iiii ic |> ignore done
+        )
+    | _ ->
+        assert false
+  else
+    match kind with
+    | 1 ->
+        let x = iiii' ic in
+        if Int64.logand x 1L = 0L then
+          assert false
+        else
+          Printf.printf "    int: %Ld\n" Int64.(div (sub x 1L) 2L)
+    | 0 ->
+        let hd = iiii' ic in
+        let tag = tag_hd' hd in
+        Printf.printf "    header: %016Lx\n" hd;
+        Printf.printf "    tag: %s\n" (name_tag tag);
+        if tag = double_tag then (
+          let x = Int64.float_of_bits (iiii' ic) in
+          Printf.printf "    size: %d\n" (size_hd' hd);
+          Printf.printf "    float: %f\n" x
+        ) else if tag = string_tag then (
+          let size = string_size_hd' hd in
+          Printf.printf "    size: %d\n" size;
+          print_string "    string: ";
+          for i = 1 to 8*(size-1) do
+            print_string @@ Char.escaped (input_char ic)
+          done;
+          let bs = Array.init 8 (fun _ -> input_byte ic) in
+          for i = 0 to 7-bs.(7) do
+            print_char @@ char_of_int bs.(i)
+          done;
+          print_char '\n'
+        ) else (
+          let size = size_hd' hd in
+          Printf.printf "    size: %d\n" size;
+          for i = 1 to size do iiii' ic |> ignore done
+        )
+    | _ ->
+        assert false
+
+let dump filename =
+  let go () =
+    Printf.printf "File %s\n" filename;
+    let buf = Bytes.create 256 in
+    let ic = open_in_bin filename in
+    if input ic buf 0 4 <> 4 then
+      raise Invalid;
+    let magic = Bytes.sub_string buf 0 4 in
+    if magic = Config.obj_magic then (
+      relocatable := true;
+      print_endline "Relocatable file";
+      let phr_idx_off = input_bin_int ic in
+      seek_in ic phr_idx_off;
+      let phr_idx = (input_value ic : compiled_phrase list) in
+      List.iter (print_phr_entry ic) phr_idx
+    ) else if magic = Config.exe_magic then (
+      relocatable := false;
+      print_endline "Executable";
+      let global_off = input_bin_int ic in
+      let global_num = input_bin_int ic in
+      let code_len = global_off-12 in
+      Printf.printf "\nLength %d\n" code_len;
+      print_code ic code_len;
+      Printf.printf "\nGlobal value: %d\n" global_num;
+      for i = 0 to global_num-1 do
+        print_value ic i
+      done
+    ) else
+      raise Invalid
+  in
+  try go ()
+  with Invalid | End_of_file -> prerr_endline "Invalid obj file"; exit 1
+
+let () =
+  let program_desc = "camlfwod [OBJECT|EXE]\n\
+    Caml Featherweight objdump\n\n\
+    camlfwod displays information about object files\n\
+    or bytecode executable files.\n"
+  in
+  let files = ref [] in
+  init_jumptbl();
+  Arg.parse []
+    (fun file -> files := file :: !files)
+    program_desc;
+  if !files = [] then (
+    prerr_string @@ Arg.usage_string [] program_desc;
+    exit 1
+  ) else
+    List.iter dump (List.rev !files)
