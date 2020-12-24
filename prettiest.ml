@@ -8,4 +8,15 @@ let partition_eithers xs =
         List.rev ls, List.rev rs
     | x::xs ->
         match x with
-        | Le
+        | Left l ->
+            go (l::ls) rs xs
+        | Right r ->
+            go ls (r::rs) xs
+  in
+  go [] [] xs
+
+module LazyList = struct
+  type 'a node = Nil | Cons of 'a * 'a t
+  and 'a t = 'a node Lazy.t
+  let empty = lazy Nil
+ 
