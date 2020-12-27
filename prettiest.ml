@@ -26,4 +26,12 @@ module LazyList = struct
     | Nil -> Nil
     | Cons (h, t) -> Cons (f h, map f t)
   )
-  let rec append l1 l2 = l
+  let rec append l1 l2 = lazy (
+    match force l1 with
+    | Nil -> force l2
+    | Cons (h, t) -> Cons (h, append t l2)
+  )
+  let rec concat ll = lazy (
+    match force ll with
+    | Nil -> Nil
+    | Cons (h, t) -> app
