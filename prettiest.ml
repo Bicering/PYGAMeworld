@@ -19,4 +19,11 @@ module LazyList = struct
   type 'a node = Nil | Cons of 'a * 'a t
   and 'a t = 'a node Lazy.t
   let empty = lazy Nil
- 
+  let singleton x = lazy (Cons (x, empty))
+  let force = Lazy.force
+  let rec map f l = lazy (
+    match force l with
+    | Nil -> Nil
+    | Cons (h, t) -> Cons (f h, map f t)
+  )
+  let rec append l1 l2 = l
