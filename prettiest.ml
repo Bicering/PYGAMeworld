@@ -34,4 +34,17 @@ module LazyList = struct
   let rec concat ll = lazy (
     match force ll with
     | Nil -> Nil
-    | Cons (h, t) -> app
+    | Cons (h, t) -> append h (concat t) |> force
+  )
+  let is_empty l = force l = Nil
+end
+
+let force = Lazy.force
+
+type doc =
+  | Empty
+  | Line of bool
+  | Nest of int * doc
+  | Char of char
+  | Text of string
+  | Cat of doc * doc
