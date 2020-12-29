@@ -48,3 +48,13 @@ type doc =
   | Char of char
   | Text of string
   | Cat of doc * doc
+  | Union of doc * doc
+  | Column of (int -> doc)
+  | Nesting of (int -> doc)
+  | MaxColumn of int
+
+type sdoc =
+  | SEmpty
+  | SChar of char * sdoc Lazy.t
+  | SText of string * sdoc Lazy.t
+ 
