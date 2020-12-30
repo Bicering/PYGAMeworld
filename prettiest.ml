@@ -72,3 +72,9 @@ let rec flatten x =
   | Text _
   | MaxColumn _ -> x
   | Line false -> Empty
+  | Line true -> Char ' '
+  | Nest (_, x) -> flatten x
+  | Cat (x, y) -> Cat (flatten x, flatten y)
+  | Union (x, y) -> flatten x
+  | Column f -> Column (flatten % f)
+  | Nesting f -> Nest
