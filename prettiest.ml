@@ -57,4 +57,18 @@ type sdoc =
   | SEmpty
   | SChar of char * sdoc Lazy.t
   | SText of string * sdoc Lazy.t
- 
+  | SLine of int * sdoc Lazy.t
+
+type idoc =
+  | IEmpty
+  | IChar of char * idoc
+  | IText of string * idoc
+  | ILine of int * idoc
+
+let rec flatten x =
+  match x with
+  | Empty
+  | Char _
+  | Text _
+  | MaxColumn _ -> x
+  | Line false -> Empty
