@@ -84,4 +84,8 @@ let (<|>) x y = Union (x, y)
 let (<.>) x y = Cat (x, y)
 let space = Text " "
 let (<+>) x y = Cat (x, Cat (space, y))
-let (</>) x y = Cat
+let (</>) x y = Cat (x, Cat (group (Line true), y))
+let (<//>) x y = Cat (x, Cat (group (Line false), y))
+let (<+/>) x y = Cat (x, Cat (Union (space, Line true), y))
+let (<$>) x y = Cat (x, Cat (Line true, y))
+let 
