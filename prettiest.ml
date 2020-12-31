@@ -77,4 +77,11 @@ let rec flatten x =
   | Cat (x, y) -> Cat (flatten x, flatten y)
   | Union (x, y) -> flatten x
   | Column f -> Column (flatten % f)
-  | Nesting f -> Nest
+  | Nesting f -> Nesting (flatten % f)
+
+let group x = Union (flatten x, x)
+let (<|>) x y = Union (x, y)
+let (<.>) x y = Cat (x, y)
+let space = Text " "
+let (<+>) x y = Cat (x, Cat (space, y))
+let (</>) x y = Cat
