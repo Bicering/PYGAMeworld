@@ -88,4 +88,8 @@ let (</>) x y = Cat (x, Cat (group (Line true), y))
 let (<//>) x y = Cat (x, Cat (group (Line false), y))
 let (<+/>) x y = Cat (x, Cat (Union (space, Line true), y))
 let (<$>) x y = Cat (x, Cat (Line true, y))
-let 
+let align x = Column (fun k -> Nesting (fun i -> Nest (k-i, x)))
+let nest i x = Nest(i, x)
+let int i = Text (string_of_int i)
+let intw w i =
+  let s = string_o
