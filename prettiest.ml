@@ -92,4 +92,11 @@ let align x = Column (fun k -> Nesting (fun i -> Nest (k-i, x)))
 let nest i x = Nest(i, x)
 let int i = Text (string_of_int i)
 let intw w i =
-  let s = string_o
+  let s = string_of_int i in
+  let l = String.length s in
+  if w > l then
+    Text (String.make (w-l) ' ' ^ s)
+  else
+    Text s
+let width x f = Column (fun k1 -> x <.> Column (fun k2 -> f (k2-k1)))
+let vsep = List
