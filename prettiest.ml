@@ -99,4 +99,13 @@ let intw w i =
   else
     Text s
 let width x f = Column (fun k1 -> x <.> Column (fun k2 -> f (k2-k1)))
-let vsep = List
+let vsep = List.fold_left (<$>)
+
+let empty = Empty
+let char c = Char c
+let text t = Text t
+let space = Char ' '
+let line = Line true
+let linebreak = Line false
+let softline = group line
+let softbreak = grou
