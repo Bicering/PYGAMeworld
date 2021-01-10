@@ -108,4 +108,13 @@ let space = Char ' '
 let line = Line true
 let linebreak = Line false
 let softline = group line
-let softbreak = grou
+let softbreak = group linebreak
+let lbrace = Char '{'
+let rbrace = Char '}'
+let lbracket = Char '['
+let rbracket = Char ']'
+let langle = Char '<'
+let rangle = Char '>'
+let lparen = Char '('
+let rparen = Char ')'
+let semicolon 
