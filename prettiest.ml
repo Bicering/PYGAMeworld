@@ -126,4 +126,12 @@ let fill_break f x =
     else Text (String.make (f-w) ' '))
 
 let fill f x =
-  width x 
+  width x (fun w ->
+    if w >= f then Empty
+    else Text (String.make (f-w) ' '))
+
+let rec sep_by sep = function
+  | [] -> Empty
+  | x::xs ->
+    let rec go acc = function
+      | [] ->
