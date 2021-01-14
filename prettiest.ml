@@ -134,4 +134,15 @@ let rec sep_by sep = function
   | [] -> Empty
   | x::xs ->
     let rec go acc = function
-      | [] ->
+      | [] -> acc
+      | x::xs -> go (acc <.> sep <.> x) xs
+    in
+    go x xs
+
+let rec sep_by' sep xs =
+  align @@ sep_by sep xs
+
+let enclose l r x = l <.> x <.> r
+let fill_sep xs =
+  match xs with
+  | [] -> Em
