@@ -117,4 +117,13 @@ let langle = Char '<'
 let rangle = Char '>'
 let lparen = Char '('
 let rparen = Char ')'
-let semicolon 
+let semicolon = Char ';'
+let comma = Char ','
+
+let fill_break f x =
+  width x (fun w ->
+    if w > f then Nest (f, Line false)
+    else Text (String.make (f-w) ' '))
+
+let fill f x =
+  width x 
