@@ -145,4 +145,14 @@ let rec sep_by' sep xs =
 let enclose l r x = l <.> x <.> r
 let fill_sep xs =
   match xs with
-  | [] -> Em
+  | [] -> Empty
+  | x::xs -> List.fold_left (</>) x xs
+
+let rec enclose_sep l r sep = function
+  | [] -> l <.> r
+  | x::xs ->
+    let rec go acc = function
+      | [] -> acc
+      | x::xs -> go (acc <.> sep <.> x) xs
+    in
+    align (g
