@@ -166,4 +166,11 @@ let rec enclose_sep_a l r sep a =
       if i = n then
         acc
       else
-        go (acc 
+        go (acc <.> sep <.> a.(i)) (i+1)
+    in
+    align (go (l <.> a.(0)) 1 <.> r)
+
+let render_greedy rfrac w x =
+  let r = rfrac *. float_of_int w |> int_of_float |> min w |> max 0 in
+  let better n k x y =
+    let r
