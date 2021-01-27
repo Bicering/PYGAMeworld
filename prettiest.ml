@@ -155,4 +155,15 @@ let rec enclose_sep l r sep = function
       | [] -> acc
       | x::xs -> go (acc <.> sep <.> x) xs
     in
-    align (g
+    align (go (l <.> x) xs <.> r)
+
+let rec enclose_sep_a l r sep a =
+  let n = Array.length a in
+  if n = 0 then
+    l <.> r
+  else
+    let rec go acc i =
+      if i = n then
+        acc
+      else
+        go (acc 
