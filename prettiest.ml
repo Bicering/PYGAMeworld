@@ -173,4 +173,10 @@ let rec enclose_sep_a l r sep a =
 let render_greedy rfrac w x =
   let r = rfrac *. float_of_int w |> int_of_float |> min w |> max 0 in
   let better n k x y =
-    let r
+    let rec fits w = function
+      | _ when w < 0 -> false
+      | SEmpty -> true
+      | SChar (c, x) -> fits (w-1) (force x)
+      | SText (s, x) -> fits (w-String.length s) (force x)
+      | SLine (i, x) -> true
+  
