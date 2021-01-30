@@ -179,4 +179,13 @@ let render_greedy rfrac w x =
       | SChar (c, x) -> fits (w-1) (force x)
       | SText (s, x) -> fits (w-String.length s) (force x)
       | SLine (i, x) -> true
-  
+    in
+    if fits (min (w-k) (r-k+n)) x then x else y
+  in
+  let rec best n k = function
+    | [] -> SEmpty
+    | (i,d)::ds ->
+        match d with
+        | Empty -> best n k ds
+        | Line _ -> SLine (i, lazy (best i i ds))
+        | Nest
