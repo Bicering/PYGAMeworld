@@ -188,4 +188,7 @@ let render_greedy rfrac w x =
         match d with
         | Empty -> best n k ds
         | Line _ -> SLine (i, lazy (best i i ds))
-        | Nest
+        | Nest (j,x) -> best n k ((i+j,x)::ds)
+        | Char c -> SChar (c, lazy (best n (k+1) ds))
+        | Text s -> SText (s, lazy (best n (k+String.length s) ds))
+        | Cat (x,y) -> best n k ((i,x)::
