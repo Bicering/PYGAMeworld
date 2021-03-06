@@ -195,4 +195,14 @@ let render_greedy rfrac w x =
         | Union (x,y) -> better n k (best n k ((i,x)::ds)) (best n k ((i,y)::ds))
         | Column f -> best n k ((i,f k)::ds)
         | Nesting f -> best n k ((i,f i)::ds)
-        | MaxColumn w -> best n k ds
+        | MaxColumn w -> best n k ds (* ignore *)
+  in
+  let buf = Buffer.create 0 in
+  let rec out = function
+    | SEmpty ->
+        Buffer.contents buf
+    | SChar (c, x) ->
+        Buffer.add_char buf c;
+        out (force x)
+    | SText (s, x) ->
+ 
