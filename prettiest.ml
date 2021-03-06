@@ -205,4 +205,12 @@ let render_greedy rfrac w x =
         Buffer.add_char buf c;
         out (force x)
     | SText (s, x) ->
- 
+        Buffer.add_string buf s;
+        out (force x)
+    | SLine (i, x) ->
+        Buffer.add_char buf '\n';
+        Buffer.add_string buf (String.make i ' ');
+        out (force x)
+  in
+  best 0 0 [0,x] |> out
+
