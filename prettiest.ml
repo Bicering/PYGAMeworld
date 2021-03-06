@@ -191,4 +191,8 @@ let render_greedy rfrac w x =
         | Nest (j,x) -> best n k ((i+j,x)::ds)
         | Char c -> SChar (c, lazy (best n (k+1) ds))
         | Text s -> SText (s, lazy (best n (k+String.length s) ds))
-        | Cat (x,y) -> best n k ((i,x)::
+        | Cat (x,y) -> best n k ((i,x)::(i,y)::ds)
+        | Union (x,y) -> better n k (best n k ((i,x)::ds)) (best n k ((i,y)::ds))
+        | Column f -> best n k ((i,f k)::ds)
+        | Nesting f -> best n k ((i,f i)::ds)
+        | MaxColumn w -> best n k ds
