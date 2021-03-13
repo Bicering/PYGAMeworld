@@ -219,4 +219,10 @@ let render rfrac w x =
   let rec step b p n k inv ds =
     if (w < k || r < k-n) && not b then
       []
-    else mat
+    else match ds with
+      | [] -> [Right inv]
+      | (i,d)::ds ->
+          match d with
+          | Empty -> step b p n k inv ds
+          | Line _ -> [Left (p,i,i,ILine (i,inv),ds)]
+          | Nest (j,x) -> st
