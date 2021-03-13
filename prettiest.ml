@@ -214,3 +214,9 @@ let render_greedy rfrac w x =
   in
   best 0 0 [0,x] |> out
 
+let render rfrac w x =
+  let r = rfrac *. float_of_int w |> int_of_float |> min w |> max 0 in
+  let rec step b p n k inv ds =
+    if (w < k || r < k-n) && not b then
+      []
+    else mat
