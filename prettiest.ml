@@ -225,4 +225,7 @@ let render rfrac w x =
           match d with
           | Empty -> step b p n k inv ds
           | Line _ -> [Left (p,i,i,ILine (i,inv),ds)]
-          | Nest (j,x) -> st
+          | Nest (j,x) -> step b p n k inv ((i+j,x)::ds)
+          | Char c -> step b (p+1) n (k+1) (IChar (c,inv)) ds
+          | Text s -> step b (p+1) n (k+String.length s) (IText (s,inv)) ds
+          | Cat (x,y) -> st
