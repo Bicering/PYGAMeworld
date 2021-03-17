@@ -231,4 +231,10 @@ let render rfrac w x =
           | Cat (x,y) -> step b p n k inv ((i,x)::(i,y)::ds)
           | Union (x,y) -> step b p n k inv ((i,x)::ds) @
                            step false p n k inv ((i,y)::ds)
-          | Column f -> step b (p+1) n k inv ((i,f k):
+          | Column f -> step b (p+1) n k inv ((i,f k)::ds)
+          | Nesting f -> step b (p+1) n k inv ((i,f i)::ds)
+          | MaxColumn w -> if w < k && not b then [] else step b (p+1) n k inv ds
+  in
+  let rec filter xs =
+    let rec go p acc = function
+  
