@@ -228,4 +228,7 @@ let render rfrac w x =
           | Nest (j,x) -> step b p n k inv ((i+j,x)::ds)
           | Char c -> step b (p+1) n (k+1) (IChar (c,inv)) ds
           | Text s -> step b (p+1) n (k+String.length s) (IText (s,inv)) ds
-          | Cat (x,y) -> st
+          | Cat (x,y) -> step b p n k inv ((i,x)::(i,y)::ds)
+          | Union (x,y) -> step b p n k inv ((i,x)::ds) @
+                           step false p n k inv ((i,y)::ds)
+          | Column f -> step b (p+1) n k inv ((i,f k):
