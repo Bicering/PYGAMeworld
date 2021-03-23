@@ -237,4 +237,13 @@ let render rfrac w x =
   in
   let rec filter xs =
     let rec go p acc = function
-  
+      | ((p',_,_,_,_) as x)::xs ->
+          if p >= p' then
+            go p acc xs
+          else
+            go p' (x::acc) xs
+      | [] ->
+          List.rev acc
+    in
+    match xs with
+    
