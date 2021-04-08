@@ -268,4 +268,11 @@ let render rfrac w x =
   in
   let rec invert acc = function
     | IEmpty -> acc
-    | IChar (c, x)
+    | IChar (c, x) -> invert (IChar (c, acc)) x
+    | IText (s, x) -> invert (IText (s, acc)) x
+    | ILine (i, x) -> invert (ILine (i, acc)) x
+  in
+  let buf = Buffer.create 0 in
+  let rec out = function
+    | IEmpty ->
+      
