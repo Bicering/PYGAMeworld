@@ -14,4 +14,8 @@
 
 #define WORD_SIZE __WORDSIZE
 
-#if WORD_SIZE ==
+#if WORD_SIZE == 32
+# define MAGIC "ml32"
+#else
+# define MAGIC "ml64"
+#endif
