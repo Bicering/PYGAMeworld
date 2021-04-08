@@ -275,4 +275,12 @@ let render rfrac w x =
   let buf = Buffer.create 0 in
   let rec out = function
     | IEmpty ->
-      
+        Buffer.contents buf
+    | IChar (c, x) ->
+        Buffer.add_char buf c;
+        out x
+    | IText (s, x) ->
+        Buffer.add_string buf s;
+        out x
+    | ILine (i, x) ->
+        Buf
