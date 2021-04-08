@@ -246,4 +246,10 @@ let render rfrac w x =
           List.rev acc
     in
     match xs with
-    
+    | [] -> []
+    | ((p,_,_,_,_) as x)::xs -> go p [x] xs
+  in
+  let rec loop frontier =
+    let ps, dones = List.map (fun (p,n,k,inv,r) ->
+      let z = step false p n k inv r in
+      if z = [] then st
