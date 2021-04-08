@@ -283,4 +283,8 @@ let render rfrac w x =
         Buffer.add_string buf s;
         out x
     | ILine (i, x) ->
-        Buf
+        Buffer.add_char buf '\n';
+        Buffer.add_string buf (String.make i ' ');
+        out x
+  in
+  loop [0,0,0,IEmpty,[0,x]] |> invert IEmpty |> out
