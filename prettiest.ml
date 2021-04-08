@@ -261,4 +261,11 @@ let render rfrac w x =
         if ps = [] then
           IEmpty
         else
-          List.sort (fun (
+          List.sort (fun (p1,n1,_,_,_) (p2,n2,_,_,_) ->
+            if n1 <> n2 then n1-n2
+            else p2-p1
+          ) ps |> filter |> loop
+  in
+  let rec invert acc = function
+    | IEmpty -> acc
+    | IChar (c, x)
