@@ -252,4 +252,13 @@ let render rfrac w x =
   let rec loop frontier =
     let ps, dones = List.map (fun (p,n,k,inv,r) ->
       let z = step false p n k inv r in
-      if z = [] then st
+      if z = [] then step true p n k inv r else z) frontier |>
+      List.concat |> partition_eithers in
+    match dones with
+    | don::_ ->
+        don
+    | [] ->
+        if ps = [] then
+          IEmpty
+        else
+          List.sort (fun (
