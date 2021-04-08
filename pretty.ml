@@ -263,3 +263,67 @@ and pretty_type_expression pri te =
             ) (go pri_comma te) tes
         end
     | Ptype_var v ->
+        char '\'' <.> text v
+  in
+  go pri te
+and pretty_pat pri pat =
+  let rec go pri p =
+    match p.p_desc with
+    | Ppat_alias(p,a) ->
+        go pri_as p </> text "as" </> text a
+    | Ppat_any ->
+        char '_'
+    | Ppat_array ps ->
+        pretty_array go pri ps
+    | Ppat_constant c ->
+        pretty_constant pri c
+    | Ppat_constr(id,arg) ->
+        begin match id with
+        | Lident "()" ->
+            text "()"
+        | _ ->
+            begin match arg with
+            | None ->
+                text @@ string_of_long_ident id
+            | Some arg ->
+                text (string_of_long_ident id) </> go pri_app arg
+            end
+        end
+    | Ppat_constraint(p,te) ->
+        lparen <//> go pri_as p </> char ':' </>
+        pretty_type_expression pri_as te <//> rparen
+    | Ppat_or(p1,p2) ->
+        go pri_bar p1 </> char '|' </>
+        go (pri_bar-1) p2
+    | Ppat_tuple ps ->
+        pretty_tuple go pri ps
+    | Ppat_var v ->
+        text v
+  in
+  go pri pat
+
+let pretty_letdef isrec binds =
+  align (pretty_let_and_binds isrec binds)
+
+let pretty_typedef decl =
+  text "type"
+
+let pretty_excdef decl =
+  text "exception"
+
+let pprint_impl width impl =
+  let doc =
+    match impl.im_desc with
+    | Pimpl_expr e ->
+        pretty_expr 0 e
+    | Pimpl_typedef decl ->
+        pretty_typedef decl
+    | Pimpl_letdef(isrec,pes) ->
+        pretty_letdef isrec pes
+    | Pimpl_excdef decl ->
+        pretty_excdef decl
+  in
+  print_endline @@ render 1.0 width doc
+
+let pprint_implementation width impls =
+  List.iter (pprint_impl width) impls
