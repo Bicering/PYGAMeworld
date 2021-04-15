@@ -18,4 +18,11 @@ intptr_t cmp_value(value v1, value v2)
     return d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
   }
   case Abstract_tag:
-    inval
+    invalid_argument("equal: abstract value");
+    break;
+  default: {
+    uint32_t sz1 = Wosize_val(v1),
+             sz2 = Wosize_val(v2);
+    if (sz1 != sz2) return sz1-sz2;
+    REP(i, sz1) {
+      intptr_t r = cm
