@@ -10,4 +10,12 @@ intptr_t cmp_value(value v1, value v2)
   u8 t1 = Tag_val(v1), t2 = Tag_val(v2);
   if (t1 != t2) return (intptr_t)t1-t2;
   switch (t1) {
-  case String_t
+  case String_tag:
+    return string_compare(v1, v2);
+  case Double_tag: {
+    double d1 = Double_val(v1),
+           d2 = Double_val(v2);
+    return d1 < d2 ? -1 : d1 > d2 ? 1 : 0;
+  }
+  case Abstract_tag:
+    inval
