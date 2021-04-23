@@ -43,4 +43,12 @@ ML value notequal(value v1, value v2)
 { return Atom(cmp_value(v1, v2) != 0); }
 
 ML value less(value v1, value v2)
-{ return Atom(cmp_value(v1, v2
+{ return Atom(cmp_value(v1, v2) < 0); }
+
+ML value lessequal(value v1, value v2)
+{ return Atom(cmp_value(v1, v2) <= 0); }
+
+ML value greater(value v1, value v2)
+{ return Atom(cmp_value(v1, v2) > 0); }
+
+ML value greatereq
