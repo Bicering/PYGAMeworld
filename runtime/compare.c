@@ -36,4 +36,11 @@ intptr_t cmp_value(value v1, value v2)
 ML value compare(value v1, value v2)
 { return Val_int(cmp_value(v1, v2)); }
 
-ML value equal(value 
+ML value equal(value v1, value v2)
+{ return Atom(cmp_value(v1, v2) == 0); }
+
+ML value notequal(value v1, value v2)
+{ return Atom(cmp_value(v1, v2) != 0); }
+
+ML value less(value v1, value v2)
+{ return Atom(cmp_value(v1, v2
