@@ -25,4 +25,15 @@ intptr_t cmp_value(value v1, value v2)
              sz2 = Wosize_val(v2);
     if (sz1 != sz2) return sz1-sz2;
     REP(i, sz1) {
-      intptr_t r = cm
+      intptr_t r = cmp_value(Field(v1, i), Field(v2, i));
+      if (r) return r;
+    }
+    return 0;
+  }
+  }
+}
+
+ML value compare(value v1, value v2)
+{ return Val_int(cmp_value(v1, v2)); }
+
+ML value equal(value 
