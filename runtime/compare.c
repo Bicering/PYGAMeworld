@@ -51,4 +51,5 @@ ML value lessequal(value v1, value v2)
 ML value greater(value v1, value v2)
 { return Atom(cmp_value(v1, v2) > 0); }
 
-ML value greatereq
+ML value greaterequal(value v1, value v2)
+{ return Atom(cmp_value(v1, v2) >= 0); }
