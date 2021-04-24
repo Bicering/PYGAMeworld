@@ -18,4 +18,15 @@ void not_implemented(const char *msg)
 
 void invalid_argument(const char *msg)
 {
-  ra
+  raise_with_string(INVALID_EXN, msg);
+}
+
+void fatal_error(const char *msg)
+{
+  fatal_error_fmt("%s\n", msg);
+}
+
+void fatal_error_fmt(const char *fmt, ...)
+{
+  va_list ap;
+  va_start(ap
