@@ -19,4 +19,16 @@ ML value output_int(value ch)
   return Val_unit;
 }
 
-ML value output_float(v
+ML value output_float(value x)
+{
+  printf("%g", Double_val(x));
+  return Val_unit;
+}
+
+ML value output_string(value x)
+{
+  u32 len = string_length(x);
+  REP(i, len)
+    putchar(string_getitem(x, i));
+  return Val_unit;
+}
