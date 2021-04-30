@@ -105,4 +105,16 @@ void disasm(code_t pc)
     if ((value)pc & 1) pc++;
     printf("0x%08x", pc+pi16(pc));
     pc += 2;
-    b
+    break;
+  }
+  putchar('\n');
+}
+
+bool touch(value x)
+{
+  u32 size, color;
+  switch (Tag_val(x)) {
+  case Closure_tag:
+    if (Color_val(x))
+      return true;
+    Hd_val(x) = Set_colo
