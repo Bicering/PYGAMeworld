@@ -44,4 +44,11 @@ value alloc_with_hd(u32 size, hd_t hd)
 
 value alloc(u8 tag, u32 size)
 {
-  return alloc_with_hd(size, Make_header(tag,
+  return alloc_with_hd(size, Make_header(tag, size));
+}
+
+value alloc_block(value env, u32 nmore)
+{
+  value newenv = alloc(Tag_val(env), Wosize_val(env) + nmore);
+  memcpy((char*)newenv + (2+nmore)*sizeof(value),
+         (char*)env + 2*sizeof(value), B
