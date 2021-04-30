@@ -51,4 +51,16 @@ value alloc_block(value env, u32 nmore)
 {
   value newenv = alloc(Tag_val(env), Wosize_val(env) + nmore);
   memcpy((char*)newenv + (2+nmore)*sizeof(value),
-         (char*)env + 2*sizeof(value), B
+         (char*)env + 2*sizeof(value), Bosize_val(env));
+  return (value)newenv;
+}
+
+void disasm(code_t pc)
+{
+  u8 op = *pc++;
+  printf("%s ", name_of_instructions[op]);
+  switch (op) {
+  case ACCESS:
+  case DUMMY:
+  case ENDLET:
+  case GETFIEL
