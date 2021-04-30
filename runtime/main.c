@@ -86,4 +86,14 @@ void disasm(code_t pc)
   case CONSTINT16:
     if ((value)pc & 1) pc++;
     printf("[%d]", pi16(pc));
-    p
+    pc += 2;
+    break;
+  case BRANCH:
+  case BRANCHIF:
+  case BRANCHIFEQ:
+  case BRANCHIFGE:
+  case BRANCHIFGT:
+  case BRANCHIFLE:
+  case BRANCHIFLT:
+  case CUR:
+    if ((value)pc & 1) p
