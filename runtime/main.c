@@ -75,4 +75,15 @@ void disasm(code_t pc)
     printf("%s", name_of_cprims[*pc++]);
     break;
   case CONSTINT8:
-    printf("%d", *(i8
+    printf("%d", *(i8*)pc++);
+    break;
+  case GETGLOBAL:
+  case SETGLOBAL:
+    if ((value)pc & 1) pc++;
+    printf("[%d]", pu16(pc));
+    pc += 2;
+    break;
+  case CONSTINT16:
+    if ((value)pc & 1) pc++;
+    printf("[%d]", pi16(pc));
+    p
