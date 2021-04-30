@@ -22,4 +22,15 @@ bool trace = false;
 bool verbose = false;
 value global_value;
 hd_t first_atoms[256];
-value *arg_stack_low, *
+value *arg_stack_low, *arg_stack_high;
+value *ret_stack_low, *ret_stack_high;
+value tail = 0;
+
+static inline void modify(value *x, value y)
+{
+  *x = y;
+}
+
+value alloc_with_hd(u32 size, hd_t hd)
+{
+  value block = (value)malloc((size+2)*sizeof(value));
