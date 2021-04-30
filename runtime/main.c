@@ -96,4 +96,13 @@ void disasm(code_t pc)
   case BRANCHIFLE:
   case BRANCHIFLT:
   case CUR:
-    if ((value)pc & 1) p
+    if ((value)pc & 1) pc++;
+    printf("0x%08x", pc+pi16(pc));
+    pc += 2;
+    break;
+  case BRANCHIFNEQTAG:
+    printf("%d ", *pc++);
+    if ((value)pc & 1) pc++;
+    printf("0x%08x", pc+pi16(pc));
+    pc += 2;
+    b
