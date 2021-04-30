@@ -63,4 +63,16 @@ void disasm(code_t pc)
   case ACCESS:
   case DUMMY:
   case ENDLET:
-  case GETFIEL
+  case GETFIELD:
+  case SETFIELD:
+  case UPDATE:
+    printf("%d", *pc++);
+    break;
+  case CCALL1:
+  case CCALL2:
+  case CCALL3:
+  case CCALL4:
+    printf("%s", name_of_cprims[*pc++]);
+    break;
+  case CONSTINT8:
+    printf("%d", *(i8
