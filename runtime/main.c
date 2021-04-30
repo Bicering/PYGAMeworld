@@ -34,3 +34,14 @@ static inline void modify(value *x, value y)
 value alloc_with_hd(u32 size, hd_t hd)
 {
   value block = (value)malloc((size+2)*sizeof(value));
+  *(value *)block = hd;
+  Field(block, -1) = tail;
+  if (tail)
+    Field(tail, -1) ^= block;
+  tail = block;
+  return block;
+}
+
+value alloc(u8 tag, u32 size)
+{
+  return alloc_with_hd(size, Make_header(tag,
