@@ -136,4 +136,17 @@ bool touch(value x)
     size = Wosize_val(x);
     color = Color_val(x);
     if (color < size) {
-      Hd_val(x) = Set_color_val(x, col
+      Hd_val(x) = Set_color_val(x, color+1);
+      return false;
+    }
+    if (! size)
+      Hd_val(x) = Set_color_val(x, 1);
+    return true;
+  }
+}
+
+value get_cur_field(value x)
+{
+  switch (Tag_val(x)) {
+  case Closure_tag:
+    ret
