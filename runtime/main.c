@@ -117,4 +117,14 @@ bool touch(value x)
   case Closure_tag:
     if (Color_val(x))
       return true;
-    Hd_val(x) = Set_colo
+    Hd_val(x) = Set_color_val(x, 1);
+    return false;
+  case String_tag:
+    Hd_val(x) |= 1 << Gcsize_offset;
+    return true;
+  case Array_tag:
+    size = array_length(x);
+    color = Field(x, 0);
+    if (color < size) {
+      Field(x, 0)++;
+   
