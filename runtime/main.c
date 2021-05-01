@@ -127,4 +127,13 @@ bool touch(value x)
     color = Field(x, 0);
     if (color < size) {
       Field(x, 0)++;
-   
+      return false;
+    }
+    if (! size)
+      Field(x, 0) = 1;
+    return true;
+  default:
+    size = Wosize_val(x);
+    color = Color_val(x);
+    if (color < size) {
+      Hd_val(x) = Set_color_val(x, col
