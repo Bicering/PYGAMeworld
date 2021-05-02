@@ -149,4 +149,15 @@ value get_cur_field(value x)
 {
   switch (Tag_val(x)) {
   case Closure_tag:
-    ret
+    return Env_val(x);
+  case Array_tag:
+    return Field(x, Field(x, 0));
+  default:
+    return Field(x, Color_val(x)-1);
+  }
+}
+
+void set_cur_field(value x, value y)
+{
+  switch (Tag_val(x)) {
+  case Closure_tag
