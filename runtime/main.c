@@ -160,4 +160,18 @@ value get_cur_field(value x)
 void set_cur_field(value x, value y)
 {
   switch (Tag_val(x)) {
-  case Closure_tag
+  case Closure_tag:
+    Env_val(x) = y;
+    break;
+  case Array_tag:
+    Field(x, Field(x, 0)) = y;
+    break;
+  default:
+    Field(x, Color_val(x)-1) = y;
+    break;
+  }
+}
+
+bool is_fresh(value x)
+{
+  switch (Tag_val(x))
