@@ -186,4 +186,17 @@ bool is_fresh(value x)
 
 void reset_color(value x)
 {
-  switch (Tag
+  switch (Tag_val(x)) {
+  case String_tag:
+    Hd_val(x) &= ~ (1 << Gcsize_offset);
+    break;
+  case Array_tag:
+    Field(x, 0) = 0;
+    break;
+  default:
+    Hd_val(x) = Set_color_val(x, 0);
+    break;
+  }
+}
+
+void s
