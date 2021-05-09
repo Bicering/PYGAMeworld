@@ -174,4 +174,16 @@ void set_cur_field(value x, value y)
 
 bool is_fresh(value x)
 {
-  switch (Tag_val(x))
+  switch (Tag_val(x)) {
+  case String_tag:
+    return String_color_val(x) == 0;
+  case Array_tag:
+    return Field(x, 0) == 0;
+  default:
+    return Color_val(x) == 0;
+  }
+}
+
+void reset_color(value x)
+{
+  switch (Tag
