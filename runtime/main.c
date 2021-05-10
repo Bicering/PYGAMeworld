@@ -199,4 +199,13 @@ void reset_color(value x)
   }
 }
 
-void s
+void schorr_waite(value x)
+{
+  if (! Is_block(x) || ! x || ! is_fresh(x)) return;
+  value p = 0, y;
+  for(;;) {
+    if (touch(x)) {
+      if (! p) return;
+      y = x;
+      x = p;
+      p = get_cur_field
