@@ -235,4 +235,13 @@ void gc(value acc, value env, value *asp, value *rsp, struct trap_frame *tp)
       p++;
     }
   }
-  schorr_waite
+  schorr_waite(global_value);
+  schorr_waite(acc);
+  schorr_waite(env);
+  value x = 0, y = tail, z;
+  while (y) {
+    z = Field(y, -1) ^ x;
+    if (is_fresh(y)) {
+      if (x)
+        Field(x, -1) ^= y ^ z;
+      el
