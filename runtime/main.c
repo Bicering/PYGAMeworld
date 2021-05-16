@@ -221,4 +221,10 @@ void schorr_waite(value x)
   }
 }
 
-void gc(va
+void gc(value acc, value env, value *asp, value *rsp, struct trap_frame *tp)
+{
+  for (value *p = asp; p < arg_stack_high; p++)
+    schorr_waite(*p);
+  for (value *p = rsp; p < ret_stack_high; ) {
+    if (p == (value*)tp) {
+      scho
