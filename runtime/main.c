@@ -227,4 +227,12 @@ void gc(value acc, value env, value *asp, value *rsp, struct trap_frame *tp)
     schorr_waite(*p);
   for (value *p = rsp; p < ret_stack_high; ) {
     if (p == (value*)tp) {
-      scho
+      schorr_waite(tp->env);
+      tp = tp->tp;
+      p = (value*)((char*)p-sizeof(struct trap_frame));
+    } else {
+      schorr_waite(((struct return_frame*)p)->env);
+      p++;
+    }
+  }
+  schorr_waite
