@@ -208,4 +208,17 @@ void schorr_waite(value x)
       if (! p) return;
       y = x;
       x = p;
-      p = get_cur_field
+      p = get_cur_field(x);
+      set_cur_field(x, y);
+    } else {
+      y = get_cur_field(x);
+      if (Is_block(y) && y && is_fresh(y)) {
+        set_cur_field(x, p);
+        p = x;
+        x = y;
+      }
+    }
+  }
+}
+
+void gc(va
