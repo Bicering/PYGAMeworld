@@ -244,4 +244,15 @@ void gc(value acc, value env, value *asp, value *rsp, struct trap_frame *tp)
     if (is_fresh(y)) {
       if (x)
         Field(x, -1) ^= y ^ z;
-      el
+      else
+        tail = z;
+      if (z)
+        Field(z, -1) ^= y ^ x;
+      // printf("+ free %08x\n", y);
+      free((void*)y);
+      y = z;
+    } else {
+      reset_color(y);
+      x = y;
+      y = z;
+    
