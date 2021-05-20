@@ -255,4 +255,18 @@ void gc(value acc, value env, value *asp, value *rsp, struct trap_frame *tp)
       reset_color(y);
       x = y;
       y = z;
-    
+    }
+  }
+}
+
+#define FAILED_TO_OPEN -1
+#define BAD_MAGIC -2
+#define TRUNCATED_FILE -3
+#define INVALID_EXE -4
+#define SYSERROR -5
+
+#define UNCAUGHT_EXCEPTION -6
+
+int interpret(code_t code)
+{
+  value acc = Val_int(0), env =
