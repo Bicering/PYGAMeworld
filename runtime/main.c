@@ -269,4 +269,11 @@ void gc(value acc, value env, value *asp, value *rsp, struct trap_frame *tp)
 
 int interpret(code_t code)
 {
-  value acc = Val_int(0), env =
+  value acc = Val_int(0), env = Atom(0),
+        *asp = arg_stack_high, *rsp = ret_stack_high;
+  struct trap_frame *tp = NULL;
+  code_t pc = code;
+  value tmp;
+
+#define retsp ((struct return_frame *)rsp)
+#define Push_ret_frame ( rsp = (va
