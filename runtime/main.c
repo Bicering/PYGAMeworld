@@ -276,4 +276,7 @@ int interpret(code_t code)
   value tmp;
 
 #define retsp ((struct return_frame *)rsp)
-#define Push_ret_frame ( rsp = (va
+#define Push_ret_frame ( rsp = (value*)((char*)rsp-sizeof(struct return_frame)) )
+#define Pop_ret_frame ( rsp = (value*)((char*)rsp+sizeof(struct return_frame)) )
+#define trapsp ((struct trap_frame *)rsp)
+#define Push_trap_frame ( rsp =
