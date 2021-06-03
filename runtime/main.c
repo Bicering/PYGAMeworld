@@ -283,4 +283,13 @@ int interpret(code_t code)
 #define Pop_trap_frame ( rsp = (value*)((char*)rsp+sizeof(struct trap_frame)) )
 //#define Push_ret_frame rsp--
 //#define Pop_ret_frame rsp++
-//#define Push_t
+//#define Push_trap_frame tsp--
+//#define Pop_trap_frame tsp++
+
+  uvalue tick = 0;
+
+#define GC tick++; if (tick % (1 << 13) == 0) gc(acc, env, asp, rsp, tp)
+
+#ifdef DIRECT_JUMP
+# define Inst(name) lbl_##name
+# define Next
