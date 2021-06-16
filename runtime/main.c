@@ -292,4 +292,14 @@ int interpret(code_t code)
 
 #ifdef DIRECT_JUMP
 # define Inst(name) lbl_##name
-# define Next
+# define Next goto *jumptable[*pc++];
+  static void *jumptable[] = {
+    #include "jumptable.h"
+  };
+  Next;
+#else
+# define Inst(name) case name
+# define Next break
+  for(;;) {
+# ifdef DEBUG
+    if (tra
