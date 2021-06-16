@@ -302,4 +302,14 @@ int interpret(code_t code)
 # define Next break
   for(;;) {
 # ifdef DEBUG
-    if (tra
+    if (trace)
+      disasm(pc);
+# endif
+    switch (*pc++) {
+#endif
+    Inst(ACCESS):
+      acc = Field(env, *pc++);
+      Next;
+    Inst(ADDFLOAT):
+      tmp = alloc(Double_tag, Double_wosize);
+      *(double
