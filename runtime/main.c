@@ -312,4 +312,13 @@ int interpret(code_t code)
       Next;
     Inst(ADDFLOAT):
       tmp = alloc(Double_tag, Double_wosize);
-      *(double
+      *(double*)Op_val(tmp) = Double_val(acc) + Double_val(*asp++);
+      acc = tmp;
+      Next;
+    Inst(ADDINT):
+      acc += *asp++ - 1;
+      Next;
+    Inst(ANDINT):
+      acc &= *asp++;
+      Next;
+    Inst
