@@ -321,4 +321,13 @@ int interpret(code_t code)
     Inst(ANDINT):
       acc &= *asp++;
       Next;
-    Inst
+    Inst(APPLY):
+      Push_ret_frame;
+      retsp->pc = pc;
+      retsp->env = env;
+      pc = Code_val(acc);
+      env = alloc_block(Env_val(acc), 1);
+      Field(env, 0) = *asp++;
+      // TODO check stack
+      Next;
+    Inst(ARRAYLENGTH
