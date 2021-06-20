@@ -339,4 +339,14 @@ int interpret(code_t code)
     Inst(ATOM):
       acc = Atom(*pc++);
       Next;
-    Inst(
+    Inst(BRANCH):
+      Br16;
+      Next;
+    Inst(BRANCHIF):
+      Br16if(Tag_val(acc));
+      Next;
+    Inst(BRANCHIFEQ):
+      Br16if(acc == *asp++);
+      Next;
+    Inst(BRANCHIFGE):
+      Br16if(acc >= *asp++)
