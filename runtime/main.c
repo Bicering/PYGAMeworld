@@ -330,4 +330,13 @@ int interpret(code_t code)
       Field(env, 0) = *asp++;
       // TODO check stack
       Next;
-    Inst(ARRAYLENGTH
+    Inst(ARRAYLENGTH):
+      acc = Val_int(array_length(acc));
+      Next;
+    Inst(ASRINT):
+      acc = 1 | acc-1 >> Int_val(*asp++);
+      Next;
+    Inst(ATOM):
+      acc = Atom(*pc++);
+      Next;
+    Inst(
