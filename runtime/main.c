@@ -349,4 +349,13 @@ int interpret(code_t code)
       Br16if(acc == *asp++);
       Next;
     Inst(BRANCHIFGE):
-      Br16if(acc >= *asp++)
+      Br16if(acc >= *asp++);
+      Next;
+    Inst(BRANCHIFGT):
+      Br16if(acc > *asp++);
+      Next;
+    Inst(BRANCHIFLE):
+      Br16if(acc <= *asp++);
+      Next;
+    Inst(BRANCHIFLT):
+      Br16if(acc < *asp++);
