@@ -359,3 +359,15 @@ int interpret(code_t code)
       Next;
     Inst(BRANCHIFLT):
       Br16if(acc < *asp++);
+      Next;
+    Inst(BRANCHIFNEQ):
+      Br16if(acc != *asp++);
+      Next;
+    Inst(BRANCHIFNEQTAG): {
+      u8 n = *pc++;
+      Br16if(Tag_val(acc) != n);
+      Next;
+    }
+    Inst(BRANCHIFNOT):
+      Br16if(! Tag_val(acc));
+      Next;
