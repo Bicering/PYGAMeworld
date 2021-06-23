@@ -371,3 +371,14 @@ int interpret(code_t code)
     Inst(BRANCHIFNOT):
       Br16if(! Tag_val(acc));
       Next;
+    Inst(CCALL1):
+      acc = cprims[pu8(pc)](acc);
+      pc += sizeof(u8);
+      Next;
+    Inst(CCALL2):
+      acc = cprims[pu8(pc)](acc, asp[0]);
+      pc += sizeof(u8);
+      asp += 1;
+      Next;
+    Inst(CCALL3):
+   
