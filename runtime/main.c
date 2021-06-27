@@ -381,4 +381,11 @@ int interpret(code_t code)
       asp += 1;
       Next;
     Inst(CCALL3):
-   
+      acc = cprims[pu8(pc)](acc, asp[0], asp[1]);
+      pc += sizeof(u8);
+      asp += 2;
+      Next;
+    Inst(CCALL4):
+      acc = cprims[pu8(pc)](acc, asp[0], asp[1], asp[2]);
+      pc += sizeof(u8);
+    
