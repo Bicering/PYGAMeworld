@@ -388,4 +388,14 @@ int interpret(code_t code)
     Inst(CCALL4):
       acc = cprims[pu8(pc)](acc, asp[0], asp[1], asp[2]);
       pc += sizeof(u8);
-    
+      asp += 3;
+      Next;
+    Inst(CONSTINT8):
+      acc = pi8(pc)*2+1;
+      pc += sizeof(i8);
+      Next;
+    Inst(CONSTINT16):
+      if ((value)pc & 1) pc++;
+      acc = pi16(pc)*2+1;
+      pc += sizeof(i16);
+      
