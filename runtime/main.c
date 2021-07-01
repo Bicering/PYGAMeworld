@@ -405,4 +405,11 @@ int interpret(code_t code)
       Code_val(acc) = pc+pi16(pc);
       Env_val(acc) = env;
       pc += sizeof(i16);
-    
+      Next;
+    Inst(DECR):
+      Field(acc, 0) -= 2;
+      acc = Atom(0);
+      Next;
+    Inst(DIVFLOAT):
+      tmp = alloc(Double_tag, Double_wosize);
+      *(double*)Op_val(tmp) = Double_val(acc) / Double_val(*asp++
