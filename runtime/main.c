@@ -398,4 +398,11 @@ int interpret(code_t code)
       if ((value)pc & 1) pc++;
       acc = pi16(pc)*2+1;
       pc += sizeof(i16);
-      
+      Next;
+    Inst(CUR):
+      acc = alloc(Closure_tag, Closure_wosize);
+      if ((value)pc & 1) pc++;
+      Code_val(acc) = pc+pi16(pc);
+      Env_val(acc) = env;
+      pc += sizeof(i16);
+    
