@@ -412,4 +412,14 @@ int interpret(code_t code)
       Next;
     Inst(DIVFLOAT):
       tmp = alloc(Double_tag, Double_wosize);
-      *(double*)Op_val(tmp) = Double_val(acc) / Double_val(*asp++
+      *(double*)Op_val(tmp) = Double_val(acc) / Double_val(*asp++);
+      acc = tmp;
+      Next;
+    Inst(DIVINT):
+      tmp = *asp++ - 1;
+      if (! tmp) {
+        acc = Atom(DIVISION_BY_ZERO_EXN);
+        goto raise;
+      }
+      acc = Val_int((acc-1)/tmp);
+     
