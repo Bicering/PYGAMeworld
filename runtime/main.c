@@ -422,4 +422,14 @@ int interpret(code_t code)
         goto raise;
       }
       acc = Val_int((acc-1)/tmp);
-     
+      Next;
+    Inst(DUMMY): {
+      u8 n = *pc++;
+      env = alloc_block(env, n);
+      while (n--)
+        Field(env, n) = Val_int(0);
+      Next;
+    }
+    Inst(ENDLET): {
+      u8 n = *pc++;
+      uint32
