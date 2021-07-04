@@ -432,4 +432,12 @@ int interpret(code_t code)
     }
     Inst(ENDLET): {
       u8 n = *pc++;
-      uint32
+      uint32_t size = Wosize_val(env)-n;
+      value newenv = alloc(0, size);
+      REP(i, size)
+        Field(newenv, i) = Field(env, i+n);
+      env = newenv;
+      Next;
+    }
+    Inst(EQ):
+      
