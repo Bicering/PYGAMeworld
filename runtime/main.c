@@ -440,4 +440,11 @@ int interpret(code_t code)
       Next;
     }
     Inst(EQ):
-      
+      acc = Atom(acc == *asp++);
+      Next;
+    Inst(EQSTRING):
+      acc = Atom(string_compare(acc, *asp++) == 0);
+      Next;
+    Inst(EQFLOAT):
+      acc = Atom(Double_val(acc) == Double_val(*asp++));
+      Ne
