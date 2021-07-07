@@ -447,4 +447,12 @@ int interpret(code_t code)
       Next;
     Inst(EQFLOAT):
       acc = Atom(Double_val(acc) == Double_val(*asp++));
-      Ne
+      Next;
+    Inst(GEFLOAT):
+      acc = Atom(Double_val(acc) >= Double_val(*asp++));
+      Next;
+    Inst(GEINT):
+      acc = Atom(acc >= *asp++);
+      Next;
+    Inst(GESTRING):
+      acc = Atom(string_compare(acc, *asp++) >
