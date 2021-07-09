@@ -455,4 +455,12 @@ int interpret(code_t code)
       acc = Atom(acc >= *asp++);
       Next;
     Inst(GESTRING):
-      acc = Atom(string_compare(acc, *asp++) >
+      acc = Atom(string_compare(acc, *asp++) >= 0);
+      Next;
+    Inst(GETARRAYITEM):
+      acc = array_getitem(acc, Int_val(*asp++));
+      Next;
+    Inst(GETFIELD):
+      acc = Field(acc, *pc++);
+      Next;
+    
