@@ -486,4 +486,13 @@ int interpret(code_t code)
       acc = Atom(Double_val(acc) > Double_val(*asp++));
       Next;
     Inst(GTINT):
-      acc = Atom(ac
+      acc = Atom(acc > *asp++);
+      Next;
+    Inst(GTSTRING):
+      acc = Atom(string_compare(acc, *asp++) > 0);
+      Next;
+    Inst(INCR):
+      Field(acc, 0) += 2;
+      acc = Atom(0);
+      Next;
+  
