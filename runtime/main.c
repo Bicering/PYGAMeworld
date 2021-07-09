@@ -469,4 +469,13 @@ int interpret(code_t code)
       pc += sizeof(u16);
       Next;
     Inst(GETSTRINGITEM):
-      acc = Val_int(string_
+      acc = Val_int(string_getitem(acc, Int_val(*asp++)));
+      Next;
+    Inst(GRAB):
+      if (*asp == MARK) {
+        asp++;
+        pc = retsp->pc;
+        env = retsp->env;
+        Pop_ret_frame;
+      } else {
+        env = alloc_block(env,
