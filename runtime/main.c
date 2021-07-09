@@ -478,4 +478,12 @@ int interpret(code_t code)
         env = retsp->env;
         Pop_ret_frame;
       } else {
-        env = alloc_block(env,
+        env = alloc_block(env, 1);
+        Field(env, 0) = *asp++;
+      }
+      Next;
+    Inst(GTFLOAT):
+      acc = Atom(Double_val(acc) > Double_val(*asp++));
+      Next;
+    Inst(GTINT):
+      acc = Atom(ac
