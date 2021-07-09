@@ -463,4 +463,10 @@ int interpret(code_t code)
     Inst(GETFIELD):
       acc = Field(acc, *pc++);
       Next;
-    
+    Inst(GETGLOBAL):
+      if ((value)pc & 1) pc++;
+      acc = Field(global_value, pu16(pc));
+      pc += sizeof(u16);
+      Next;
+    Inst(GETSTRINGITEM):
+      acc = Val_int(string_
