@@ -495,4 +495,11 @@ int interpret(code_t code)
       Field(acc, 0) += 2;
       acc = Atom(0);
       Next;
-  
+    Inst(INTOFFLOAT):
+      acc = Val_int((value)Double_val(acc));
+      Next;
+    Inst(LEFLOAT):
+      acc = Atom(Double_val(acc) <= Double_val(*asp++));
+      Next;
+    Inst(LEINT):
+      acc = At
