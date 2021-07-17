@@ -518,4 +518,11 @@ int interpret(code_t code)
       acc = 1 | (uvalue)(acc-1) >> Int_val(*asp++);
       Next;
     Inst(LTFLOAT):
-      acc = 
+      acc = Atom(Double_val(acc) < Double_val(*asp++));
+      Next;
+    Inst(LTINT):
+      acc = Atom(acc < *asp++);
+      Next;
+    Inst(LTSTRING):
+      acc = Atom(string_compare(acc, *asp++) < 0);
+      Next;
