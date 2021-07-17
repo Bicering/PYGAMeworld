@@ -510,4 +510,12 @@ int interpret(code_t code)
     Inst(LET):
       env = alloc_block(env, 1);
       Field(env, 0) = acc;
-     
+      Next;
+    Inst(LSLINT):
+      acc = 1 | acc-1 << Int_val(*asp++);
+      Next;
+    Inst(LSRINT):
+      acc = 1 | (uvalue)(acc-1) >> Int_val(*asp++);
+      Next;
+    Inst(LTFLOAT):
+      acc = 
