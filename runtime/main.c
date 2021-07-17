@@ -502,4 +502,12 @@ int interpret(code_t code)
       acc = Atom(Double_val(acc) <= Double_val(*asp++));
       Next;
     Inst(LEINT):
-      acc = At
+      acc = Atom(acc <= *asp++);
+      Next;
+    Inst(LESTRING):
+      acc = Atom(string_compare(acc, *asp++) <= 0);
+      Next;
+    Inst(LET):
+      env = alloc_block(env, 1);
+      Field(env, 0) = acc;
+     
