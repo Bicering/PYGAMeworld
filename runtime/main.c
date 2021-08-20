@@ -526,3 +526,8 @@ int interpret(code_t code)
     Inst(LTSTRING):
       acc = Atom(string_compare(acc, *asp++) < 0);
       Next;
+    Inst(MAKEARRAY): {
+      u8 init = *pc++;
+      u32 size = Int_val(acc);
+      value block = alloc_with_hd(size+1, Array_make_header(size+1));
+      Field(block, 
