@@ -536,4 +536,14 @@ int interpret(code_t code)
           Field(block, i) = *asp++;
       else {
         for (uint32_t i = 1; i <= size; i++)
-          Field(block, i) = 
+          Field(block, i) = *asp;
+        asp++;
+      }
+      acc = block;
+      Next;
+    }
+    Inst(MAKEBLOCK): {
+      GC;
+      pc = (code_t)(((value)pc+sizeof(value)-1) & -sizeof(value));
+      value hdr = *(value*)pc;
+      pc += si
