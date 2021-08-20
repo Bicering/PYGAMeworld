@@ -530,4 +530,10 @@ int interpret(code_t code)
       u8 init = *pc++;
       u32 size = Int_val(acc);
       value block = alloc_with_hd(size+1, Array_make_header(size+1));
-      Field(block, 
+      Field(block, 0) = 0; // actual color used by GC
+      if (init)
+        for (uint32_t i = 1; i <= size; i++)
+          Field(block, i) = *asp++;
+      else {
+        for (uint32_t i = 1; i <= size; i++)
+          Field(block, i) = 
