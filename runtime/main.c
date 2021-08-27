@@ -546,4 +546,9 @@ int interpret(code_t code)
       GC;
       pc = (code_t)(((value)pc+sizeof(value)-1) & -sizeof(value));
       value hdr = *(value*)pc;
-      pc += si
+      pc += sizeof(value);
+      uint32_t size = Wosize_hd(hdr);
+      value block = alloc(Tag_hd(hdr), size);
+      Field(block, 0) = acc;
+      for (uint32_t i = 1; i < size; i++)
+        Field(block, i) = *
