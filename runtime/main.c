@@ -551,4 +551,12 @@ int interpret(code_t code)
       value block = alloc(Tag_hd(hdr), size);
       Field(block, 0) = acc;
       for (uint32_t i = 1; i < size; i++)
-        Field(block, i) = *
+        Field(block, i) = *asp++;
+      acc = block;
+      Next;
+    }
+    Inst(MAKESTRING): {
+      u32 len = Int_val(acc);
+      u32 w = WORD_SIZE/8;
+      u32 size = len/w+1;
+      value block = alloc_with_hd(si
