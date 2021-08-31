@@ -559,4 +559,8 @@ int interpret(code_t code)
       u32 len = Int_val(acc);
       u32 w = WORD_SIZE/8;
       u32 size = len/w+1;
-      value block = alloc_with_hd(si
+      value block = alloc_with_hd(size, String_make_header(size));
+      memset(&Field(block, 0), Int_val(*asp++), len);
+      u8 *last = (u8*)&Field(block, size-1);
+      u8 pad = w-len%w;
+      for (u32 i = len%w; i < w; i+
