@@ -575,3 +575,10 @@ int interpret(code_t code)
         goto raise;
       }
       acc = (acc-1) % tmp + 1;
+      Next;
+    Inst(MULFLOAT):
+      tmp = alloc(Double_tag, Double_wosize);
+      *(double*)Op_val(tmp) = Double_val(acc) * Double_val(*asp++);
+      acc = tmp;
+      Next;
+  
