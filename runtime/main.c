@@ -586,4 +586,14 @@ int interpret(code_t code)
       Next;
     Inst(NEGFLOAT):
       tmp = alloc(Double_tag, Double_wosize);
-      *(double*)Op_val(tmp) = - Double_val(
+      *(double*)Op_val(tmp) = - Double_val(acc);
+      acc = tmp;
+      Next;
+    Inst(NEGINT):
+      acc = 2-acc;
+      Next;
+    Inst(NEQ):
+      acc = Atom(acc != *asp++);
+      Next;
+    Inst(NEQFLOAT):
+      acc = At
