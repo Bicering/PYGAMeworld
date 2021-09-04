@@ -563,4 +563,15 @@ int interpret(code_t code)
       memset(&Field(block, 0), Int_val(*asp++), len);
       u8 *last = (u8*)&Field(block, size-1);
       u8 pad = w-len%w;
-      for (u32 i = len%w; i < w; i+
+      for (u32 i = len%w; i < w; i++)
+        last[i] = pad;
+      acc = block;
+      Next;
+    }
+    Inst(MODINT):
+      tmp = *asp++ - 1;
+      if (! tmp) {
+        acc = Atom(DIVISION_BY_ZERO_EXN);
+        goto raise;
+      }
+      acc = (acc-1) % tmp + 1;
