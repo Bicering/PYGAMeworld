@@ -581,4 +581,9 @@ int interpret(code_t code)
       *(double*)Op_val(tmp) = Double_val(acc) * Double_val(*asp++);
       acc = tmp;
       Next;
-  
+    Inst(MULINT):
+      acc = (acc>>1) * (*asp++-1) + 1;
+      Next;
+    Inst(NEGFLOAT):
+      tmp = alloc(Double_tag, Double_wosize);
+      *(double*)Op_val(tmp) = - Double_val(
