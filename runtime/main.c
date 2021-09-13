@@ -633,4 +633,14 @@ int interpret(code_t code)
     Inst(PUSHTRAP):
       Push_trap_frame;
       if ((value)pc & 1) pc++;
-      t
+      trapsp->pc = pc+pi16(pc);
+      pc += sizeof(i16);
+      trapsp->env = env;
+      trapsp->asp = asp;
+      trapsp->tp = tp;
+      tp = trapsp;
+      Next;
+    Inst(RAISE):
+raise:
+      if (! tp)
+        return U
