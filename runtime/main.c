@@ -604,3 +604,14 @@ int interpret(code_t code)
     Inst(NOP):
       Next;
     Inst(NOT):
+      acc = Atom(Tag_val(acc) == 0);
+      Next;
+    Inst(ORINT):
+      acc |= *asp++;
+      Next;
+    Inst(POP):
+      acc = *asp++;
+      Next;
+    Inst(POPBRANCHIFNOT):
+      tmp = acc;
+      acc = *asp++;
