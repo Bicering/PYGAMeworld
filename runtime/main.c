@@ -615,3 +615,11 @@ int interpret(code_t code)
     Inst(POPBRANCHIFNOT):
       tmp = acc;
       acc = *asp++;
+      Br16if(Tag_val(tmp) == 0);
+      Next;
+    Inst(POPTRAP):
+      rsp = (value *)tp;
+      env = trapsp->env;
+      asp = trapsp->asp;
+      tp = trapsp->tp;
+      Pop_trap_fram
