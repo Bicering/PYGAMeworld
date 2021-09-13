@@ -622,4 +622,15 @@ int interpret(code_t code)
       env = trapsp->env;
       asp = trapsp->asp;
       tp = trapsp->tp;
-      Pop_trap_fram
+      Pop_trap_frame;
+      Next;
+    Inst(PUSH):
+      *--asp = acc;
+      Next;
+    Inst(PUSHMARK):
+      *--asp = MARK;
+      Next;
+    Inst(PUSHTRAP):
+      Push_trap_frame;
+      if ((value)pc & 1) pc++;
+      t
