@@ -596,4 +596,11 @@ int interpret(code_t code)
       acc = Atom(acc != *asp++);
       Next;
     Inst(NEQFLOAT):
-      acc = At
+      acc = Atom(Double_val(acc) != Double_val(*asp++));
+      Next;
+    Inst(NEQSTRING):
+      acc = Atom(string_compare(acc, *asp++) == 0);
+      Next;
+    Inst(NOP):
+      Next;
+    Inst(NOT):
