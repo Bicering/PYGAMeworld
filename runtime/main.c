@@ -643,4 +643,12 @@ int interpret(code_t code)
     Inst(RAISE):
 raise:
       if (! tp)
-        return U
+        return UNCAUGHT_EXCEPTION;
+      rsp = (value *)tp;
+      pc = trapsp->pc;
+      env = alloc_block(trapsp->env, 1);
+      Field(env, 0) = acc;
+      asp = trapsp->asp;
+      tp = trapsp->tp;
+      Pop_trap_frame;
+      Nex
