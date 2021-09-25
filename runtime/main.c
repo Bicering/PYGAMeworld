@@ -651,4 +651,14 @@ raise:
       asp = trapsp->asp;
       tp = trapsp->tp;
       Pop_trap_frame;
-      Nex
+      Next;
+    Inst(RETURN):
+      if (*asp == MARK) {
+        asp++;
+        pc = retsp->pc;
+        env = retsp->env;
+        Pop_ret_frame;
+        Next;
+      }
+      // more arguments are given
+      goto te
