@@ -661,4 +661,12 @@ raise:
         Next;
       }
       // more arguments are given
-      goto te
+      goto termapply;
+    Inst(SARINT): {
+      acc = 1 | (acc-1) >> Int_val(*asp++);
+      Next;
+    }
+    Inst(SETARRAYITEM):
+      array_setitem(acc, Int_val(asp[0]), asp[1]);
+      asp += 2;
+      acc = 
