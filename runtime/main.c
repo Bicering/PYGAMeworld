@@ -669,4 +669,13 @@ raise:
     Inst(SETARRAYITEM):
       array_setitem(acc, Int_val(asp[0]), asp[1]);
       asp += 2;
-      acc = 
+      acc = Atom(0);
+      Next;
+    Inst(SETFIELD): {
+      value *ptr = &Field(acc, *pc++);
+      modify(ptr, *pc++);
+      Next;
+    }
+    Inst(SETGLOBAL):
+      if ((value)pc & 1) pc++;
+      modify(&Field(g
