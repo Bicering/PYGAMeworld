@@ -678,4 +678,11 @@ raise:
     }
     Inst(SETGLOBAL):
       if ((value)pc & 1) pc++;
-      modify(&Field(g
+      modify(&Field(global_value, pu16(pc)), acc);
+      pc += sizeof(u16);
+      Next;
+    Inst(SETSTRINGITEM):
+      string_setitem(acc, Int_val(asp[0]), Int_val(asp[1]));
+      acc = Atom(0);
+      asp += 2;
+  
