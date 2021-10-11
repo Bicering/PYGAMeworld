@@ -685,4 +685,13 @@ raise:
       string_setitem(acc, Int_val(asp[0]), Int_val(asp[1]));
       acc = Atom(0);
       asp += 2;
-  
+      Next;
+    Inst(SHLINT):
+      acc = 1 | (acc-1) << Int_val(*asp++);
+      Next;
+    Inst(SHRINT):
+      acc = 1 | (uvalue)(acc-1u) >> Int_val(*asp++);
+      Next;
+    Inst(STOP):
+      return 0;
+    
