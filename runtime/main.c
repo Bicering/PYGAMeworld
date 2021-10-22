@@ -694,4 +694,10 @@ raise:
       Next;
     Inst(STOP):
       return 0;
-    
+    Inst(STRINGLENGTH):
+      acc = Val_int(string_length(acc));
+      Next;
+    Inst(SUBFLOAT):
+      tmp = alloc(Double_tag, Double_wosize);
+      *(double*)Op_val(tmp) = Double_val(acc) - Double_val(*asp++);
+      acc = 
