@@ -731,4 +731,18 @@ termapply:
       Next;
 #ifdef DIRECT_JUMP
 #else
-  
+    }
+  }
+#endif
+}
+
+static void init_atoms(void)
+{
+  REP(i, 256)
+    first_atoms[i] = Make_header(i, 0);
+}
+
+static void init_stacks(void)
+{
+  arg_stack_low = malloc(Arg_stack_size);
+  arg_stack_hi
