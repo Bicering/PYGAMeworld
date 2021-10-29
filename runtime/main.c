@@ -700,4 +700,14 @@ raise:
     Inst(SUBFLOAT):
       tmp = alloc(Double_tag, Double_wosize);
       *(double*)Op_val(tmp) = Double_val(acc) - Double_val(*asp++);
-      acc = 
+      acc = tmp;
+      Next;
+    Inst(SUBINT): {
+      acc -= *asp++ - 1;
+      Next;
+    }
+    Inst(SWITCH):
+      pc++; // size of jumptable
+      if ((value)pc & 1) pc++;
+      pc += pi16(pc+Tag_val(acc)*2);
+      Next;
