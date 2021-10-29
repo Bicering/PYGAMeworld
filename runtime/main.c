@@ -720,4 +720,15 @@ termapply:
       pc = Code_val(acc);
       env = alloc_block(Env_val(acc), 1);
       Field(env, 0) = *asp++;
+      Next;
+    Inst(UPDATE): {
+      u8 n = *pc++;
+      modify(&Field(env, n), acc);
+      Next;
+    }
+    Inst(XORINT):
+      acc = 1 + (acc ^ *asp++);
+      Next;
+#ifdef DIRECT_JUMP
+#else
   
