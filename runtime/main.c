@@ -745,4 +745,9 @@ static void init_atoms(void)
 static void init_stacks(void)
 {
   arg_stack_low = malloc(Arg_stack_size);
-  arg_stack_hi
+  arg_stack_high = arg_stack_low + Arg_stack_size/sizeof(value);
+  ret_stack_low = malloc(Arg_stack_size);
+  ret_stack_high = ret_stack_low + Ret_stack_size/sizeof(struct return_frame);
+}
+
+int run(const cha
