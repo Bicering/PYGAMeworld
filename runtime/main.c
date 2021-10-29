@@ -711,3 +711,13 @@ raise:
       if ((value)pc & 1) pc++;
       pc += pi16(pc+Tag_val(acc)*2);
       Next;
+    Inst(TAGOF):
+      acc = Val_int(Tag_val(acc));
+      Next;
+    Inst(TERMAPPLY):
+termapply:
+      GC;
+      pc = Code_val(acc);
+      env = alloc_block(Env_val(acc), 1);
+      Field(env, 0) = *asp++;
+  
