@@ -750,4 +750,12 @@ static void init_stacks(void)
   ret_stack_high = ret_stack_low + Ret_stack_size/sizeof(struct return_frame);
 }
 
-int run(const cha
+int run(const char *filename)
+{
+  char buf[4];
+  value val;
+  int fd = open(filename, O_RDONLY);
+  int t;
+  if (fd < 0)
+    return FAILED_TO_OPEN;
+  if (read(fd, buf, 4) != 4 || ! (buf[0]==MAGIC[0] && buf[1]==MAGIC[1] && buf[
