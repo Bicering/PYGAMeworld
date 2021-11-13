@@ -758,4 +758,8 @@ int run(const char *filename)
   int t;
   if (fd < 0)
     return FAILED_TO_OPEN;
-  if (read(fd, buf, 4) != 4 || ! (buf[0]==MAGIC[0] && buf[1]==MAGIC[1] && buf[
+  if (read(fd, buf, 4) != 4 || ! (buf[0]==MAGIC[0] && buf[1]==MAGIC[1] && buf[2]==MAGIC[2] && buf[3]==MAGIC[3]))
+    return BAD_MAGIC;
+  u32 global_value_off, global_value_num, size;
+  if (read(fd, &global_value_off, 4) != 4 || read(fd, &global_value_num, 4) != 4)
+ 
