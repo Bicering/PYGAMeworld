@@ -762,4 +762,9 @@ int run(const char *filename)
     return BAD_MAGIC;
   u32 global_value_off, global_value_num, size;
   if (read(fd, &global_value_off, 4) != 4 || read(fd, &global_value_num, 4) != 4)
- 
+    return TRUNCATED_FILE;
+  if (lseek(fd, global_value_off, SEEK_SET) < 0)
+    return TRUNCATED_FILE;
+  global_value = alloc(0, global_value_num);
+  REP(i, global_value_num) {
+    if 
