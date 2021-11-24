@@ -767,4 +767,11 @@ int run(const char *filename)
     return TRUNCATED_FILE;
   global_value = alloc(0, global_value_num);
   REP(i, global_value_num) {
-    if 
+    if (read(fd, buf, 1) != 1)
+      return TRUNCATED_FILE;
+    if (buf[0] == 1) {
+      read(fd, &val, sizeof(value));
+      if (val % 2 == 0)
+        return INVALID_EXE;
+      Field(global_value, i) = val;
+    } else if (buf[
