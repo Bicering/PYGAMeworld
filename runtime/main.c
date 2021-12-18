@@ -780,4 +780,11 @@ int run(const char *filename)
       value block;
       switch (Tag_hd(val)) {
       case String_tag:
-        size = St
+        size = String_wosize_hd(val);
+        block = alloc_with_hd(size, String_make_header(size));
+        break;
+      default:
+        size = Wosize_hd(val);
+        block = alloc(Tag_hd(val), size);
+        break;
+      }
