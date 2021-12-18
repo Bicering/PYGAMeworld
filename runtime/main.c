@@ -774,4 +774,10 @@ int run(const char *filename)
       if (val % 2 == 0)
         return INVALID_EXE;
       Field(global_value, i) = val;
-    } else if (buf[
+    } else if (buf[0] == 0) {
+      if (read(fd, &val, sizeof(value)) != sizeof(value))
+        return TRUNCATED_FILE;
+      value block;
+      switch (Tag_hd(val)) {
+      case String_tag:
+        size = St
