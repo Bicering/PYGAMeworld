@@ -788,3 +788,10 @@ int run(const char *filename)
         block = alloc(Tag_hd(val), size);
         break;
       }
+      REP(j, size) {
+        if (read(fd, &val, sizeof(value)) != sizeof(value))
+          return TRUNCATED_FILE;
+        Field(block, j) = val;
+      }
+      Field(global_value, i) = block;
+    } else
