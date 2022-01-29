@@ -795,3 +795,13 @@ int run(const char *filename)
       }
       Field(global_value, i) = block;
     } else
+      return INVALID_EXE;
+  }
+
+  if (lseek(fd, 4*3, SEEK_SET) < 0)
+    return SYSERROR;
+  u32 code_len = global_value_off-4*3;
+  code_t code = malloc(code_len);
+  if (! code)
+    return SYSERROR;
+  if (read(f
