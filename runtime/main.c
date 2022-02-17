@@ -804,4 +804,14 @@ int run(const char *filename)
   code_t code = malloc(code_len);
   if (! code)
     return SYSERROR;
-  if (read(f
+  if (read(fd, code, code_len) != code_len)
+    return TRUNCATED_FILE;
+  return interpret(code);
+}
+
+static void print_help(const char *argv0)
+{
+  fprintf(stderr, "Usage: %s\n", argv0);
+}
+
+int m
