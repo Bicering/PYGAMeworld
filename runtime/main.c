@@ -814,4 +814,13 @@ static void print_help(const char *argv0)
   fprintf(stderr, "Usage: %s\n", argv0);
 }
 
-int m
+int main(int argc, char *argv[])
+{
+#ifdef JS
+  int optind = 1;
+#else
+  int opt;
+  while ((opt = getopt(argc, argv, "htv")) != -1) {
+    switch (opt) {
+    case 'h':
+      print_help(arg
