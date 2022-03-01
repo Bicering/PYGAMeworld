@@ -823,4 +823,17 @@ int main(int argc, char *argv[])
   while ((opt = getopt(argc, argv, "htv")) != -1) {
     switch (opt) {
     case 'h':
-      print_help(arg
+      print_help(argv[0]);
+      return 0;
+    case 't':
+      trace = true;
+      break;
+    case 'v':
+      verbose = true;
+      break;
+    case '?':
+      print_help(argv[0]);
+      return 1;
+    }
+  }
+  if (optind == ar
