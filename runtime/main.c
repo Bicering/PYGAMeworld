@@ -836,4 +836,13 @@ int main(int argc, char *argv[])
       return 1;
     }
   }
-  if (optind == ar
+  if (optind == argc)
+    fatal_error("No bytecode file specified.");
+#endif
+
+  init_atoms();
+  init_stacks();
+  switch (run(argv[optind])) {
+  case 0:
+#ifdef JS
+    // hack: emscripten does not
