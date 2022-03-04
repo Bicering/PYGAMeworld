@@ -845,4 +845,12 @@ int main(int argc, char *argv[])
   switch (run(argv[optind])) {
   case 0:
 #ifdef JS
-    // hack: emscripten does not
+    // hack: emscripten does not flush stdout & stderr if noExitRuntime: true
+    putchar('\n');
+#endif
+    break;
+  case FAILED_TO_OPEN:
+    fatal_error_fmt("Failed to open \"%s\"\n", strerror(errno));
+    break;
+  case TRUNCATED_FILE:
+    fatal_
