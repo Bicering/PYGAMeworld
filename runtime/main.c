@@ -853,4 +853,10 @@ int main(int argc, char *argv[])
     fatal_error_fmt("Failed to open \"%s\"\n", strerror(errno));
     break;
   case TRUNCATED_FILE:
-    fatal_
+    fatal_error_fmt("\"%s\" seems to be truncated\n", argv[optind]);
+    break;
+  case INVALID_EXE:
+    fatal_error_fmt("\"%s\" is not a bytecode executable file\n", argv[optind]);
+    break;
+  case BAD_MAGIC:
+    fatal_e
