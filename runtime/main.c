@@ -865,4 +865,8 @@ int main(int argc, char *argv[])
     fatal_error(strerror(errno));
     break;
   case UNCAUGHT_EXCEPTION:
-    fatal
+    fatal_error("Fatal error: uncaught exception");
+    break;
+  }
+  return 0;
+}
