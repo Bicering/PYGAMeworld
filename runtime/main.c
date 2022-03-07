@@ -859,4 +859,10 @@ int main(int argc, char *argv[])
     fatal_error_fmt("\"%s\" is not a bytecode executable file\n", argv[optind]);
     break;
   case BAD_MAGIC:
-    fatal_e
+    fatal_error_fmt("\"%s\" is not a bytecode executable file: missing magic \"%s\"\n", argv[optind], MAGIC);
+    break;
+  case SYSERROR:
+    fatal_error(strerror(errno));
+    break;
+  case UNCAUGHT_EXCEPTION:
+    fatal
