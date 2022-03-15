@@ -35,4 +35,10 @@ const char *name_of_cprims[] = {
   "less",
   "lessequal",
   "greater",
-  "g
+  "greaterequal",
+  "input_char",
+  "output_char",
+  "output_int",
+  "output_float",
+  "output_string",
+};
