@@ -20,4 +20,19 @@ c_primitive cprims[] = {
   less,
   lessequal,
   greater,
-  greaterequ
+  greaterequal,
+  input_char,
+  output_char,
+  output_int,
+  output_float,
+  output_string,
+};
+
+const char *name_of_cprims[] = {
+  "compare",
+  "equal",
+  "notequal",
+  "less",
+  "lessequal",
+  "greater",
+  "g
