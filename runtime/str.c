@@ -30,4 +30,7 @@ u8 string_getitem(value s, u32 i)
 
 void string_setitem(value s, u32 i, u8 c)
 {
-  uvalue
+  uvalue x = (uvalue)Field(s, i/sizeof(value));
+  u32 y = i%sizeof(value)*8;
+  Field(s, i/sizeof(value)) = x - ((x >> y & 0xFF) << y) + (c << y);
+}
