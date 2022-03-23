@@ -22,4 +22,9 @@ typedef uint32_t u32;
 #define pi16(p) (*(int16_t*)(p))
 #define pu16(p) (*(uint16_t*)(p))
 
-#define Br16 d
+#define Br16 do {if ((value)pc & 1) pc++; pc += pi16(pc);} while (0)
+#define Br16if(cond) do {if ((value)pc & 1) pc++; if (cond) pc += pi16(pc); else pc += sizeof(i16);} while (0)
+
+// value
+
+#define Is_in
