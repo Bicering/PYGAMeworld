@@ -46,4 +46,15 @@ bits  31  20 19    8 7   0
 For 64-bit architectures:
 
 bits  63  36 35    8 7   0
-     +--
+     +------+-------+-----+
+     | size | color | tag |
+     +------+-------+-----+
+      63                 0
+     +--------------------+
+     | xor of prev & next |
+     +--------------------+
+
+*/
+
+#define Gcsize_offset 8
+#if WO
