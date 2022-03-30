@@ -63,4 +63,8 @@ bits  63  36 35    8 7   0
 # define Size_offset 36
 #endif
 #define Make_header(tag, size) (tag | (hd_t)(size) << Size_offset)
-#define Wosize_hd(x) (x >> Size_o
+#define Wosize_hd(x) (x >> Size_offset)
+#define Wosize_val(v) Wosize_hd(Hd_val(v))
+#define Bosize_hd(x) ((x >> Size_offset) * sizeof(value))
+#define Bosize_val(v) Bosize_hd(Hd_val(v))
+#define Bosize_block(v) (Bosize_val(v) + 2 * 
