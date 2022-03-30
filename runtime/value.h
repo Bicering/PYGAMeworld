@@ -57,4 +57,10 @@ bits  63  36 35    8 7   0
 */
 
 #define Gcsize_offset 8
-#if WO
+#if WORD_SIZE == 32
+# define Size_offset 20
+#else
+# define Size_offset 36
+#endif
+#define Make_header(tag, size) (tag | (hd_t)(size) << Size_offset)
+#define Wosize_hd(x) (x >> Size_o
