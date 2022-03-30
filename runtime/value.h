@@ -67,4 +67,8 @@ bits  63  36 35    8 7   0
 #define Wosize_val(v) Wosize_hd(Hd_val(v))
 #define Bosize_hd(x) ((x >> Size_offset) * sizeof(value))
 #define Bosize_val(v) Bosize_hd(Hd_val(v))
-#define Bosize_block(v) (Bosize_val(v) + 2 * 
+#define Bosize_block(v) (Bosize_val(v) + 2 * sizeof(value))
+#define Hd_val(x) (*(hd_t*)x)
+#define Op_val(x) ((value*)(x)+2)
+#define Field(x, i) (((value*)(x))[i+2])
+#define Color_hd(hd) ((hd) >> Gcsize_offset & ((hd_t)1 << Size_offset-Gcsize_o
