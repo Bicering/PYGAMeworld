@@ -71,4 +71,10 @@ bits  63  36 35    8 7   0
 #define Hd_val(x) (*(hd_t*)x)
 #define Op_val(x) ((value*)(x)+2)
 #define Field(x, i) (((value*)(x))[i+2])
-#define Color_hd(hd) ((hd) >> Gcsize_offset & ((hd_t)1 << Size_offset-Gcsize_o
+#define Color_hd(hd) ((hd) >> Gcsize_offset & ((hd_t)1 << Size_offset-Gcsize_offset) - 1)
+#define Color_val(v) Color_hd(Hd_val(v))
+#define Set_color_val(v,col) (Hd_val(v) & ~(((hd_t)1<<Size_offset)-((hd_t)1<<Gcsize_offset)) | (hd_t)(col)<<Gcsize_offset)
+
+// tag
+
+#def
