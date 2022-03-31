@@ -86,4 +86,12 @@ bits  63  36 35    8 7   0
 #define Val_int(x) (((value)(x) << 1) + 1)
 #define Int_val(x) ((x) >> 1)
 
-// 1: 
+// 1: tag < No_scan_tag: fields
+
+// 1-0: atom: 0-tuples
+extern hd_t first_atoms[];
+#define Atom(tag) ((value)&first_atoms[tag])
+#define Val_unit Atom(0)
+#define Val_false Atom(0)
+#define Val_true Atom(1)
+#d
