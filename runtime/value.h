@@ -77,4 +77,13 @@ bits  63  36 35    8 7   0
 
 // tag
 
-#def
+#define Num_tags (1 << 8)
+#define No_scan_tag (Num_tags-5)
+#define Tag_hd(hd) ((u8)((hd) & 0xFF))
+#define Tag_val(v) (*(u8*)(v))
+
+// 0: int
+#define Val_int(x) (((value)(x) << 1) + 1)
+#define Int_val(x) ((x) >> 1)
+
+// 1: 
