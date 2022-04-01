@@ -94,4 +94,12 @@ extern hd_t first_atoms[];
 #define Val_unit Atom(0)
 #define Val_false Atom(0)
 #define Val_true Atom(1)
-#d
+#define Bool_val(x) Atom((x) != 0)
+
+// 1-1: closure
+#define Closure_tag (No_scan_tag-1)
+#define Closure_wosize 2
+#define Code_val(v) (*(u8**)&Field(v, 0))
+#define Env_val(v) Field(v, 1)
+
+// 2: tag >= No_scan_ta
