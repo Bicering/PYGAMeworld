@@ -102,4 +102,12 @@ extern hd_t first_atoms[];
 #define Code_val(v) (*(u8**)&Field(v, 0))
 #define Env_val(v) Field(v, 1)
 
-// 2: tag >= No_scan_ta
+// 2: tag >= No_scan_tag: bytes
+
+// 2-0: Abstract
+#define Abstract_tag No_scan_tag
+
+// 2-1: string
+#define String_tag (No_scan_tag+1)
+#define String_wosize_hd(hd) ((hd) >> Gcsize_offset+1)
+#define String_wosize_val(v) String_wosize_hd(Hd_val(
