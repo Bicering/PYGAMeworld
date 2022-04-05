@@ -113,4 +113,11 @@ extern hd_t first_atoms[];
 #define String_wosize_val(v) String_wosize_hd(Hd_val(v))
 #define String_make_header(size) (String_tag | (value)(size) << Gcsize_offset+1)
 #define String_color_hd(hd) ((hd) >> Gcsize_offset & 1)
-#define String_color_val(v) String
+#define String_color_val(v) String_color_hd(Hd_val(v))
+
+// 2-2: array
+#define Array_tag (No_scan_tag+2)
+#define Array_make_header(size) (Array_tag | (value)(size) << Gcsize_offset)
+
+static inline u32 array_length(value s)
+{ re
