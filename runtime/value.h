@@ -110,4 +110,7 @@ extern hd_t first_atoms[];
 // 2-1: string
 #define String_tag (No_scan_tag+1)
 #define String_wosize_hd(hd) ((hd) >> Gcsize_offset+1)
-#define String_wosize_val(v) String_wosize_hd(Hd_val(
+#define String_wosize_val(v) String_wosize_hd(Hd_val(v))
+#define String_make_header(size) (String_tag | (value)(size) << Gcsize_offset+1)
+#define String_color_hd(hd) ((hd) >> Gcsize_offset & 1)
+#define String_color_val(v) String
