@@ -137,4 +137,18 @@ static inline void array_setitem(value s, intptr_t i, value x)
  * stack
  */
 
-#define MAR
+#define MARK ((value)0)
+
+struct return_frame {
+  code_t pc;
+  value env;
+};
+
+struct trap_frame {
+  code_t pc;
+  value env, *asp;
+  struct trap_frame *tp;
+};
+
+/* empty */
+#define ML
