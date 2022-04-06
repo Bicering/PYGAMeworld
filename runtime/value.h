@@ -120,4 +120,10 @@ extern hd_t first_atoms[];
 #define Array_make_header(size) (Array_tag | (value)(size) << Gcsize_offset)
 
 static inline u32 array_length(value s)
-{ re
+{ return Hd_val(s) >> Gcsize_offset; }
+
+static inline value array_getitem(value s, intptr_t i)
+{ return Field(s, i+1); }
+
+static inline void array_setitem(value s, intptr_t i, value x)
+{ Field(s, i+1) 
