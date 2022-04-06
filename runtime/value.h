@@ -126,4 +126,15 @@ static inline value array_getitem(value s, intptr_t i)
 { return Field(s, i+1); }
 
 static inline void array_setitem(value s, intptr_t i, value x)
-{ Field(s, i+1) 
+{ Field(s, i+1) = x; }
+
+// 2-3: float (represented by double)
+#define Double_tag (No_scan_tag+3)
+#define Double_val(v) (*(double*)((value*)(v)+2))
+#define Double_wosize 2
+
+/*
+ * stack
+ */
+
+#define MAR
