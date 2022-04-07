@@ -34,4 +34,15 @@ type prim =
   | Pccall of int * string
   | Pdecr
   | Pdivint
-  | Pdummy of
+  | Pdummy of int
+  | Pfield of int
+  | Pfloat of float_prim
+  | Pgetarrayitem
+  | Pgetstringitem
+  | Pgetglobal of long_ident
+  | Pidentity
+  | Pincr
+  | Plslint
+  | Plsrint
+  | Pmakearray of bool
+  | Pmakeblock of c
