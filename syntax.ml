@@ -20,4 +20,18 @@ type constr_tag =
 let new_exttag_stamp =
   let stamp = ref 0 in
   fun () ->
-    l
+    let r = !stamp in
+    incr stamp;
+    r
+
+(* primitive *)
+
+type prim =
+  | Paddint
+  | Pandint
+  | Parraylength
+  | Pasrint
+  | Pccall of int * string
+  | Pdecr
+  | Pdivint
+  | Pdummy of
