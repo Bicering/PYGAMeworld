@@ -45,4 +45,18 @@ type prim =
   | Plslint
   | Plsrint
   | Pmakearray of bool
-  | Pmakeblock of c
+  | Pmakeblock of constr_tag
+  | Pmakestring
+  | Pmodint
+  | Pmulint
+  | Pnegint
+  | Pnot
+  | Porint
+  | Praise
+  | Psequand
+  | Psequor
+  | Psetarrayitem
+  | Psetstringitem
+  | Psetfield of int
+  | Psetglobal of long_ident
+  | Pstri
