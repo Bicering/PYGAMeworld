@@ -59,4 +59,19 @@ type prim =
   | Psetstringitem
   | Psetfield of int
   | Psetglobal of long_ident
-  | Pstri
+  | Pstringlength
+  | Psubint
+  | Ptest of bool_test
+  | Pupdate
+  | Pxorint
+
+and float_prim =
+  | Paddfloat
+  | Pnegfloat
+  | Psubfloat
+  | Pmulfloat
+  | Pdivfloat
+
+and bool_test =
+  | Ptest_eq
+ 
