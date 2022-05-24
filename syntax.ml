@@ -83,4 +83,18 @@ and bool_test =
 and 'a test_prim =
   | Peq
   | Pneq
-  | Pneqimm o
+  | Pneqimm of 'a
+  | Plt
+  | Ple
+  | Pgt
+  | Pge
+
+(* global *)
+
+type 'a global = { qualid: long_ident; info: 'a }
+
+(* type *)
+
+let generic = -1 and notgeneric = 0
+
+type typ = { typ_desc: typ_desc
