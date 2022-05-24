@@ -74,4 +74,13 @@ and float_prim =
 
 and bool_test =
   | Ptest_eq
- 
+  | Ptest_neq
+  | Ptest_int of int test_prim
+  | Ptest_float of float test_prim
+  | Ptest_string of string test_prim
+  | Ptest_noteqtag of constr_tag
+
+and 'a test_prim =
+  | Peq
+  | Pneq
+  | Pneqimm o
