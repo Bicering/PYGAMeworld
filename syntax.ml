@@ -97,4 +97,13 @@ type 'a global = { qualid: long_ident; info: 'a }
 
 let generic = -1 and notgeneric = 0
 
-type typ = { typ_desc: typ_desc
+type typ = { typ_desc: typ_desc; mutable typ_level: int }
+and typ_desc =
+  | Tarrow of typ * typ
+  | Tconstr of type_constr global * typ list
+  | Tproduct of typ list
+  | Tvar of typ_link ref
+and typ_link =
+  | Tnolink
+  | Tlink of typ
+and type_cons
