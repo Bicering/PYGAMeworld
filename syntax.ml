@@ -106,4 +106,12 @@ and typ_desc =
 and typ_link =
   | Tnolink
   | Tlink of typ
-and type_cons
+and type_constr = { ty_stamp: int; mutable ty_abbr: type_abbrev }
+and type_abbrev =
+  | Tnotabbrev
+  | Tabbrev of typ list * typ
+
+(* type constructur descriptions
+ * *)
+
+(* e.g
