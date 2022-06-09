@@ -119,4 +119,11 @@ type type_desc =
   { ty_constr: type_constr global; ty_arity: int; mutable ty_desc: type_components }
 and type_components =
   | Abstract_type
-  | Variant_type of
+  | Variant_type of constr_desc global list
+  | Abbrev_type of typ list * typ
+
+(* e.g. false, None *)
+and constr_desc =
+  { cs_arg: typ; cs_res: typ; cs_tag: constr_tag; cs_kind: constr_kind }
+
+and constr_
