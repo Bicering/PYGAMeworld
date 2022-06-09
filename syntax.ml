@@ -114,4 +114,9 @@ and type_abbrev =
 (* type constructur descriptions
  * *)
 
-(* e.g
+(* e.g. unit, int, list, option *)
+type type_desc =
+  { ty_constr: type_constr global; ty_arity: int; mutable ty_desc: type_components }
+and type_components =
+  | Abstract_type
+  | Variant_type of
