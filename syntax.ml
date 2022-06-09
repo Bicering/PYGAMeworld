@@ -126,4 +126,11 @@ and type_components =
 and constr_desc =
   { cs_arg: typ; cs_res: typ; cs_tag: constr_tag; cs_kind: constr_kind }
 
-and constr_
+and constr_kind =
+  | Constr_constant
+  | Constr_regular
+  | Constr_superfluous of int
+
+type expression = { e_desc: expression_desc; e_loc: location }
+and expression_desc =
+  | Pexpr_apply of expression * expre
