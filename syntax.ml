@@ -133,4 +133,9 @@ and constr_kind =
 
 type expression = { e_desc: expression_desc; e_loc: location }
 and expression_desc =
-  | Pexpr_apply of expression * expre
+  | Pexpr_apply of expression * expression list
+  | Pexpr_array of expression list
+  | Pexpr_constant of constant
+  | Pexpr_constraint of expression * type_expression
+  | Pexpr_constr of long_ident * expression option
+  | Pexpr_for of string * expr
