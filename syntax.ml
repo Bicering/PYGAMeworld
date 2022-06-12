@@ -138,4 +138,8 @@ and expression_desc =
   | Pexpr_constant of constant
   | Pexpr_constraint of expression * type_expression
   | Pexpr_constr of long_ident * expression option
-  | Pexpr_for of string * expr
+  | Pexpr_for of string * expression * expression * bool * expression
+  | Pexpr_function of (pattern * expression) list
+  | Pexpr_ident of long_ident
+  | Pexpr_if of expression * expression * expression option
+  | Pexpr_let of bool * (pattern * expressi
