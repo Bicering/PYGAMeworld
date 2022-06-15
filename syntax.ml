@@ -147,4 +147,9 @@ and expression_desc =
   | Pexpr_try of expression * (pattern * expression) list
   | Pexpr_tuple of expression list
 
-and type_expression = { te_desc: type_expr
+and type_expression = { te_desc: type_expression_desc; te_loc: location }
+and type_expression_desc =
+  | Ptype_var of string
+  | Ptype_arrow of type_expression * type_expression
+  | Ptype_tuple of type_expression list
+  | Ptype
