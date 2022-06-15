@@ -142,4 +142,9 @@ and expression_desc =
   | Pexpr_function of (pattern * expression) list
   | Pexpr_ident of long_ident
   | Pexpr_if of expression * expression * expression option
-  | Pexpr_let of bool * (pattern * expressi
+  | Pexpr_let of bool * (pattern * expression) list * expression
+  | Pexpr_sequence of expression * expression
+  | Pexpr_try of expression * (pattern * expression) list
+  | Pexpr_tuple of expression list
+
+and type_expression = { te_desc: type_expr
