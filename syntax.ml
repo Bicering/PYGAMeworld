@@ -152,4 +152,11 @@ and type_expression_desc =
   | Ptype_var of string
   | Ptype_arrow of type_expression * type_expression
   | Ptype_tuple of type_expression list
-  | Ptype
+  | Ptype_constr of long_ident * type_expression list
+
+and pattern = { p_desc: pattern_desc; p_loc: location }
+and pattern_desc =
+  | Ppat_alias of pattern * string
+  | Ppat_any
+  | Ppat_array of pattern list
+  | Ppat_consta
