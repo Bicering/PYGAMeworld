@@ -164,4 +164,14 @@ and pattern_desc =
   | Ppat_constr of long_ident * pattern option
   | Ppat_or of pattern * pattern
   | Ppat_tuple of pattern list
-  | Ppat_v
+  | Ppat_var of string
+
+(* RHS of type xx = ... *)
+type constr_decl = string * type_expression option
+
+type type_decl =
+  | Ptd_abstract
+  | Ptd_variant of constr_decl list
+  | Ptd_alias of type_expression
+
+let rec 
