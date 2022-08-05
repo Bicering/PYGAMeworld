@@ -159,4 +159,9 @@ and pattern_desc =
   | Ppat_alias of pattern * string
   | Ppat_any
   | Ppat_array of pattern list
-  | Ppat_consta
+  | Ppat_constant of constant
+  | Ppat_constraint of pattern * type_expression
+  | Ppat_constr of long_ident * pattern option
+  | Ppat_or of pattern * pattern
+  | Ppat_tuple of pattern list
+  | Ppat_v
