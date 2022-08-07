@@ -174,4 +174,11 @@ type type_decl =
   | Ptd_variant of constr_decl list
   | Ptd_alias of type_expression
 
-let rec 
+let rec expr_is_pure expr =
+  match expr.e_desc with
+  | Pexpr_array(es) -> List.for_all expr_is_pure es
+  | Pexpr_constr _
+  | Pexpr_constant _
+  | Pexpr_function _
+  | Pexpr_ident _ -> true
+  | _ -> false
