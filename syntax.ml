@@ -187,4 +187,16 @@ type impl_phrase = { im_desc: impl_desc; im_loc: location }
 and impl_desc =
   | Pimpl_expr of expression
   | Pimpl_typedef of (string * string list * type_decl) list
-  | Pimpl_letdef of bool * 
+  | Pimpl_letdef of bool * (pattern * expression) list
+  | Pimpl_excdef of constr_decl
+
+(* global value *)
+
+type value_desc = { v_typ: typ; v_prim: prim_desc }
+and prim_desc =
+  | Not_prim
+  | Prim of int * prim
+
+(* instances *)
+
+let no_type = {typ
