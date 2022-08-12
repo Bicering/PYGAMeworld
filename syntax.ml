@@ -182,3 +182,9 @@ let rec expr_is_pure expr =
   | Pexpr_function _
   | Pexpr_ident _ -> true
   | _ -> false
+
+type impl_phrase = { im_desc: impl_desc; im_loc: location }
+and impl_desc =
+  | Pimpl_expr of expression
+  | Pimpl_typedef of (string * string list * type_decl) list
+  | Pimpl_letdef of bool * 
