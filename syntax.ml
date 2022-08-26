@@ -212,4 +212,11 @@ let new_type_stamp () =
 
 (* pattern *)
 
-let rec free_vars_of_pat
+let rec free_vars_of_pat pat =
+  match pat.p_desc with
+  | Ppat_alias(p,_)
+  | Ppat_constraint(p,_) -> free_vars_of_pat p
+  | Ppat_any
+  | Ppat_constant _ -> []
+  | Ppat_array ps
+  | Ppat_tuple ps -> List.map free_vars_of_pat ps 
