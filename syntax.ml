@@ -199,4 +199,17 @@ and prim_desc =
 
 (* instances *)
 
-let no_type = {typ
+let no_type = {typ_desc=Tproduct []; typ_level=0}
+
+(* type stamp *)
+
+let init_stamp = ref 0
+
+let new_type_stamp () =
+  let r = !init_stamp in
+  incr init_stamp;
+  r
+
+(* pattern *)
+
+let rec free_vars_of_pat
