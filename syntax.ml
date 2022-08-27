@@ -219,4 +219,11 @@ let rec free_vars_of_pat pat =
   | Ppat_any
   | Ppat_constant _ -> []
   | Ppat_array ps
-  | Ppat_tuple ps -> List.map free_vars_of_pat ps 
+  | Ppat_tuple ps -> List.map free_vars_of_pat ps |> List.concat
+  | Ppat_constr(_,arg) ->
+      begin match arg with
+      | None -> []
+      | Some arg -> free_vars_of_pat arg
+      end
+  | Ppat_or(p1,p2) -> free_vars_of_pat p1 @ free_vars_of_pat p2
+  | Ppat
