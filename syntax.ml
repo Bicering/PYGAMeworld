@@ -236,4 +236,10 @@ let rec string_of_long_ident = function
 
 let show_constant = function
   | Const_char c ->
-      Printf.sprin
+      Printf.sprintf "Const_char %s" (Char.escaped c)
+  | Const_int i ->
+      Printf.sprintf "Const_int %d" i
+  | Const_float f ->
+      Printf.sprintf "Const_float %f" f
+  | Const_string s ->
+      Pr
