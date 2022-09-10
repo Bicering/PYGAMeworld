@@ -226,4 +226,14 @@ let rec free_vars_of_pat pat =
       | Some arg -> free_vars_of_pat arg
       end
   | Ppat_or(p1,p2) -> free_vars_of_pat p1 @ free_vars_of_pat p2
-  | Ppat
+  | Ppat_var v -> [v]
+
+(* dump *)
+
+let rec string_of_long_ident = function
+  | Lident id -> id
+  | Ldot (l,id) -> string_of_long_ident l ^ "." ^ id
+
+let show_constant = function
+  | Const_char c ->
+      Printf.sprin
