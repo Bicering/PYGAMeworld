@@ -242,4 +242,12 @@ let show_constant = function
   | Const_float f ->
       Printf.sprintf "Const_float %f" f
   | Const_string s ->
-      Pr
+      Printf.sprintf "Const_string %s" (String.escaped s)
+
+let dump_constant c =
+  show_constant c |> print_endline
+
+let rec dump_pattern d pat =
+  let rec go d p =
+    Printf.printf "%*s" (2*d) "";
+    match p.
