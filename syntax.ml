@@ -250,4 +250,11 @@ let dump_constant c =
 let rec dump_pattern d pat =
   let rec go d p =
     Printf.printf "%*s" (2*d) "";
-    match p.
+    match p.p_desc with
+    | Ppat_alias(p,a) ->
+        Printf.printf "Alias %s\n" a;
+        go (d+1) p
+    | Ppat_any ->
+        print_endline "Any"
+    | Ppat_array ps ->
+        Printf.printf
