@@ -257,4 +257,11 @@ let rec dump_pattern d pat =
     | Ppat_any ->
         print_endline "Any"
     | Ppat_array ps ->
-        Printf.printf
+        Printf.printf "Array %d\n" (List.length ps);
+        List.iter (go (d+1)) ps
+    | Ppat_constant c->
+        dump_constant c
+    | Ppat_constraint(p,t) ->
+        print_endline "Constraint";
+        go (d+1) p;
+        dump_type_express
