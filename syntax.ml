@@ -270,4 +270,13 @@ let rec dump_pattern d pat =
         begin match p with
         | None -> ()
         | Some p -> go (d+1) p
-   
+        end
+    | Ppat_or(p1,p2) ->
+        print_endline "Or";
+        go (d+1) p1;
+        go (d+1) p2
+    | Ppat_tuple ps ->
+        print_endline "Tuple";
+        List.iter (go (d+1)) ps
+    | Ppat_var v ->
+        
