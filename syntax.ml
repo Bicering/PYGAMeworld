@@ -264,4 +264,10 @@ let rec dump_pattern d pat =
     | Ppat_constraint(p,t) ->
         print_endline "Constraint";
         go (d+1) p;
-        dump_type_express
+        dump_type_expression (d+1) t
+    | Ppat_constr(id,p) ->
+        Printf.printf "Constr %s\n" (string_of_long_ident id);
+        begin match p with
+        | None -> ()
+        | Some p -> go (d+1) p
+   
