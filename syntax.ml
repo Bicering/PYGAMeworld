@@ -303,4 +303,8 @@ and dump_expression d expr =
         | Some e -> go (d+1) e
         end
     | Pexpr_constraint(e,t) ->
-  
+        print_endline "Constraint";
+        go (d+1) e;
+        dump_type_expression (d+1) t
+    | Pexpr_for(name,start,stop,up,body) ->
+        Printf.printf "For %s %s\n" name (if up the
