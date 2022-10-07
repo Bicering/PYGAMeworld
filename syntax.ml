@@ -296,4 +296,11 @@ and dump_expression d expr =
         List.iter (go (d+1)) es
     | Pexpr_constant c ->
         dump_constant c
-    | Pexpr
+    | Pexpr_constr(id, e) ->
+        Printf.printf "Constr %s\n" (string_of_long_ident id);
+        begin match e with
+        | None -> ()
+        | Some e -> go (d+1) e
+        end
+    | Pexpr_constraint(e,t) ->
+  
