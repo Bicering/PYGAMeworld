@@ -289,3 +289,11 @@ and dump_expression d expr =
     match e.e_desc with
     | Pexpr_apply(e, es) ->
         print_endline "Apply";
+        go (d+1) e;
+        List.iter (go (d+1)) es
+    | Pexpr_array es ->
+        print_endline "Array";
+        List.iter (go (d+1)) es
+    | Pexpr_constant c ->
+        dump_constant c
+    | Pexpr
