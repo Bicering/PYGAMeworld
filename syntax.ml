@@ -279,4 +279,13 @@ let rec dump_pattern d pat =
         print_endline "Tuple";
         List.iter (go (d+1)) ps
     | Ppat_var v ->
-        
+        Printf.printf "Var %s\n" v
+  in
+  go d pat
+
+and dump_expression d expr =
+  let rec go d e =
+    Printf.printf "%*s" (2*d) "";
+    match e.e_desc with
+    | Pexpr_apply(e, es) ->
+        print_endline "Apply";
