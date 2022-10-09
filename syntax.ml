@@ -307,4 +307,11 @@ and dump_expression d expr =
         go (d+1) e;
         dump_type_expression (d+1) t
     | Pexpr_for(name,start,stop,up,body) ->
-        Printf.printf "For %s %s\n" name (if up the
+        Printf.printf "For %s %s\n" name (if up then "up" else "down");
+        go (d+1) start;
+        go (d+1) stop;
+        go (d+1) body
+    | Pexpr_function alts ->
+        print_endline "Function";
+        List.iter (fun (p,e) ->
+          Printf.printf "%*s
