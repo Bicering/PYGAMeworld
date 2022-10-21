@@ -329,4 +329,8 @@ and dump_expression d expr =
         | Some e -> go (d+1) e
         end
     | Pexpr_let(isrec,binds,body) ->
-  
+        print_endline (if isrec then "Letrec" else "Let");
+        List.iter (fun (p,e) ->
+          Printf.printf "%*sBinding\n" (2*d+2) "";
+          dump_pattern (d+2) p;
+          go (d+2)
