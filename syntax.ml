@@ -321,4 +321,12 @@ and dump_expression d expr =
     | Pexpr_ident id ->
         Printf.printf "Ident %s\n" (string_of_long_ident id)
     | Pexpr_if(cond,ifso,ifnot) ->
-   
+        print_endline "If";
+        go (d+1) cond;
+        go (d+1) ifso;
+        begin match ifnot with
+        | None -> ()
+        | Some e -> go (d+1) e
+        end
+    | Pexpr_let(isrec,binds,body) ->
+  
