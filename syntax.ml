@@ -314,4 +314,11 @@ and dump_expression d expr =
     | Pexpr_function alts ->
         print_endline "Function";
         List.iter (fun (p,e) ->
-          Printf.printf "%*s
+          Printf.printf "%*sCase\n" (2*d+2) "";
+          dump_pattern (d+2) p;
+          go (d+2) e
+        ) alts
+    | Pexpr_ident id ->
+        Printf.printf "Ident %s\n" (string_of_long_ident id)
+    | Pexpr_if(cond,ifso,ifnot) ->
+   
