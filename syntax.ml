@@ -347,3 +347,13 @@ and dump_expression d expr =
           Printf.printf "%*sWith\n" (2*d+2) "";
           dump_pattern (d+2) p;
           go (d+2) e
+        ) pes
+    | Pexpr_tuple es ->
+        print_endline "Tuple";
+        List.iter (go (d+1)) es
+  in
+  go d expr
+
+and dump_type_expression d te =
+  let rec go d te =
+    Printf.printf "%*s" (2*d) ""
