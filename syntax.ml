@@ -369,4 +369,15 @@ and dump_type_expression d te =
         print_endline "Tuple";
         List.iter (go (d+1)) tes
     | Ptype_var v ->
-        Printf.printf "Var
+        Printf.printf "Var %s\n" v;
+  in
+  go d te
+
+let dump_type_decl d td =
+  let rec go d td =
+    Printf.printf "%*s" (2*d) "";
+    match td with
+    | Ptd_abstract ->
+        print_endline "Abstract"
+    | Ptd_variant ts ->
+        print_endlin
