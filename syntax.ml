@@ -356,4 +356,11 @@ and dump_expression d expr =
 
 and dump_type_expression d te =
   let rec go d te =
-    Printf.printf "%*s" (2*d) ""
+    Printf.printf "%*s" (2*d) "";
+    match te.te_desc with
+    | Ptype_arrow(te1,te2) ->
+        print_endline "Arrow";
+        go (d+1) te1;
+        go (d+1) te2
+    | Ptype_constr(id,tes) ->
+        Printf.printf "Constr %s
