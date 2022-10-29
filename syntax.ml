@@ -363,4 +363,10 @@ and dump_type_expression d te =
         go (d+1) te1;
         go (d+1) te2
     | Ptype_constr(id,tes) ->
-        Printf.printf "Constr %s
+        Printf.printf "Constr %s\n" (string_of_long_ident id);
+        List.iter (go (d+1)) tes
+    | Ptype_tuple tes ->
+        print_endline "Tuple";
+        List.iter (go (d+1)) tes
+    | Ptype_var v ->
+        Printf.printf "Var
