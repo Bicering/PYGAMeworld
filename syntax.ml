@@ -380,4 +380,10 @@ let dump_type_decl d td =
     | Ptd_abstract ->
         print_endline "Abstract"
     | Ptd_variant ts ->
-        print_endlin
+        print_endline "Variant";
+        List.iter (fun (name,te) ->
+          Printf.printf "%*sConstructor %s\n" (2*d+2) "" name;
+          match te with
+          | None -> ()
+          | Some te -> dump_type_expression (d+2) te
+        
