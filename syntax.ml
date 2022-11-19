@@ -395,4 +395,10 @@ let dump_type_decl d td =
 
 let dump_impl_phrase d impl =
   Printf.printf "%*s" (2*d) "";
-  match impl.i
+  match impl.im_desc with
+  | Pimpl_expr e ->
+      print_endline "Expr";
+      dump_expression 1 e
+  | Pimpl_typedef ts ->
+      List.iter (fun (name,args,decl) ->
+        Printf.printf "Type %s%s\n" (if a
