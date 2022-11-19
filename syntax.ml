@@ -386,4 +386,13 @@ let dump_type_decl d td =
           match te with
           | None -> ()
           | Some te -> dump_type_expression (d+2) te
-        
+        ) ts
+    | Ptd_alias te ->
+        print_endline "Alias";
+        dump_type_expression (d+1) te
+  in
+  go d td
+
+let dump_impl_phrase d impl =
+  Printf.printf "%*s" (2*d) "";
+  match impl.i
