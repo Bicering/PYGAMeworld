@@ -401,4 +401,9 @@ let dump_impl_phrase d impl =
       dump_expression 1 e
   | Pimpl_typedef ts ->
       List.iter (fun (name,args,decl) ->
-        Printf.printf "Type %s%s\n" (if a
+        Printf.printf "Type %s%s\n" (if args <> [] then String.concat " " args ^ " " else "") name;
+        dump_type_decl (d+1) decl
+      ) ts
+  | Pimpl_letdef(isrec,pes) ->
+      print_endline (if isrec then "Letdef rec" else "Letdef");
+      
