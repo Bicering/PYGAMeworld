@@ -406,4 +406,14 @@ let dump_impl_phrase d impl =
       ) ts
   | Pimpl_letdef(isrec,pes) ->
       print_endline (if isrec then "Letdef rec" else "Letdef");
-      
+      List.iter (fun (p,e) ->
+        dump_pattern (d+1) p;
+        dump_expression (d+1) e
+      ) pes
+
+let dump_typ d ty =
+  let seen = ref [] in
+  let ctr = ref 0 in
+  let rec go d ty =
+    Printf.printf "%*s" (2*d) "";
+    let 
