@@ -416,4 +416,13 @@ let dump_typ d ty =
   let ctr = ref 0 in
   let rec go d ty =
     Printf.printf "%*s" (2*d) "";
-    let 
+    let l = ty.typ_level in
+    let id =
+      if List.mem_assq ty !seen then
+        List.assq ty !seen
+      else (
+        seen := (ty, !ctr) :: !seen;
+        incr ctr;
+        !ctr-1
+      ) in
+    match ty.typ_desc
