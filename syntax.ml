@@ -425,4 +425,15 @@ let dump_typ d ty =
         incr ctr;
         !ctr-1
       ) in
-    match ty.typ_desc
+    match ty.typ_desc with
+    | Tarrow(ty1,ty2) ->
+        Printf.printf "Tarrow %d id=%d\n" l id;
+        go (d+1) ty1;
+        go (d+1) ty2
+    | Tconstr(tc,tys) ->
+        Printf.printf "Tconstr %d id=%d\n" l id;
+        Printf.printf "%*s%s\n" (2*d+2) "" (string_of_long_ident tc.qualid);
+        List.iter (go (d+1)) tys
+    | Tproduct tys ->
+        Printf.printf "Tproduct %d id=%d\n" l id;
+        List.it
