@@ -436,4 +436,10 @@ let dump_typ d ty =
         List.iter (go (d+1)) tys
     | Tproduct tys ->
         Printf.printf "Tproduct %d id=%d\n" l id;
-        List.it
+        List.iter (go (d+1)) tys
+    | Tvar link ->
+        Printf.printf "Tvar %d id=%d\n" l id;
+        match !link with
+        | Tnolink ->
+            Printf.printf "%*sTnolink\n" (2*d+2) ""
+        | Tlink ty 
