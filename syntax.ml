@@ -442,4 +442,8 @@ let dump_typ d ty =
         match !link with
         | Tnolink ->
             Printf.printf "%*sTnolink\n" (2*d+2) ""
-        | Tlink ty 
+        | Tlink ty ->
+            if List.mem_assq ty !seen then
+              Printf.printf "%*sTlink id=%d\n" (2*d+2) "" (List.assq ty !seen)
+            else (
+              Printf.printf "%*sTlink id=%d\n" (2*d+2) "" !ctr;
