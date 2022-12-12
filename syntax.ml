@@ -447,3 +447,13 @@ let dump_typ d ty =
               Printf.printf "%*sTlink id=%d\n" (2*d+2) "" (List.assq ty !seen)
             else (
               Printf.printf "%*sTlink id=%d\n" (2*d+2) "" !ctr;
+              seen := (ty, !ctr) :: !seen;
+              incr ctr;
+              go (d+2) ty
+            );
+  in
+  go d ty
+
+let show_float_prim = function
+  | Paddfloat -> "Paddfloat"
+  | Pnegfloat -> "Pn
