@@ -456,4 +456,14 @@ let dump_typ d ty =
 
 let show_float_prim = function
   | Paddfloat -> "Paddfloat"
-  | Pnegfloat -> "Pn
+  | Pnegfloat -> "Pnegfloat"
+  | Psubfloat -> "Psubfloat"
+  | Pmulfloat -> "Pmulfloat"
+  | Pdivfloat -> "Pdivfloat"
+
+let show_test_prim = function
+  | Peq -> "Peq"
+  | Pneq -> "Pneq"
+  | Plt -> "Plt"
+  | Ple -> "Ple"
+  |
