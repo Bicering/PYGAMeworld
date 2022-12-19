@@ -474,4 +474,12 @@ let show_tag = function
   | Constr_tag_regular(n,t) ->
       Printf.sprintf "%d,%d" n t
   | Constr_tag_extensible(id,stamp) ->
-      Printf.sprintf "%s,%
+      Printf.sprintf "%s,%d" (string_of_long_ident id) stamp
+
+let show_bool_test = function
+  | Ptest_eq -> "Ptest_eq"
+  | Ptest_neq -> "Ptest_neq"
+  | Ptest_int x ->
+      "Ptest_int " ^
+      (match x with
+      | Pneqimm x -> 
