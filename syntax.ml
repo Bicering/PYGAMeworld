@@ -466,4 +466,12 @@ let show_test_prim = function
   | Pneq -> "Pneq"
   | Plt -> "Plt"
   | Ple -> "Ple"
-  |
+  | Pgt -> "Pgt"
+  | Pge -> "Pge"
+  | Pneqimm _ -> assert false
+
+let show_tag = function
+  | Constr_tag_regular(n,t) ->
+      Printf.sprintf "%d,%d" n t
+  | Constr_tag_extensible(id,stamp) ->
+      Printf.sprintf "%s,%
