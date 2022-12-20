@@ -482,4 +482,10 @@ let show_bool_test = function
   | Ptest_int x ->
       "Ptest_int " ^
       (match x with
-      | Pneqimm x -> 
+      | Pneqimm x -> "<>" ^ string_of_int x
+      | _ -> show_test_prim x)
+  | Ptest_float x ->
+      "Ptest_float " ^
+      (match x with
+      | Pneqimm x -> "<>" ^ string_of_float x
+      | _ -> show_tes
