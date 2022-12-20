@@ -488,4 +488,11 @@ let show_bool_test = function
       "Ptest_float " ^
       (match x with
       | Pneqimm x -> "<>" ^ string_of_float x
-      | _ -> show_tes
+      | _ -> show_test_prim x)
+  | Ptest_string x ->
+      "Ptest_string " ^
+      (match x with
+      | Pneqimm x -> "<>" ^ String.escaped x
+      | _ -> show_test_prim x)
+  | Ptest_noteqtag tag ->
+      "Ptest_noteq
