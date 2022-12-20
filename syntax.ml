@@ -495,4 +495,11 @@ let show_bool_test = function
       | Pneqimm x -> "<>" ^ String.escaped x
       | _ -> show_test_prim x)
   | Ptest_noteqtag tag ->
-      "Ptest_noteq
+      "Ptest_noteqtag " ^ show_tag tag
+
+let show_prim = function
+  | Paddint -> "Paddint"
+  | Pandint -> "Pandint"
+  | Parraylength -> "Parraylength"
+  | Pasrint -> "Pasrint"
+  | Pccall(a,n) -
