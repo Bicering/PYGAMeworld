@@ -502,4 +502,10 @@ let show_prim = function
   | Pandint -> "Pandint"
   | Parraylength -> "Parraylength"
   | Pasrint -> "Pasrint"
-  | Pccall(a,n) -
+  | Pccall(a,n) -> Printf.sprintf "Pccall %d %s" a n
+  | Pdecr -> "Pdecr"
+  | Pdivint -> "Pdivint"
+  | Pdummy n -> Printf.sprintf "Pdummy %d" n
+  | Pfield i -> Printf.sprintf "Pfield %d" i
+  | Pfloat f -> show_float_prim f
+  | Pge
