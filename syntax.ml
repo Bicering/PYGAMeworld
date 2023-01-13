@@ -526,4 +526,7 @@ let show_prim = function
   | Psequand -> "Psequand"
   | Psequor -> "Psequor"
   | Psetarrayitem -> "Psetarrayitem"
-  | Ps
+  | Psetstringitem -> "Psetstringitem"
+  | Psetfield i -> Printf.sprintf "Psetfield %d" i
+  | Psetglobal id -> Printf.sprintf "Psetglobal %s" (string_of_long_ident id)
+  | Pstringlength -> "Pstri
