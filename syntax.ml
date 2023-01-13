@@ -519,3 +519,11 @@ let show_prim = function
   | Pmakestring -> "Pmakestring"
   | Pmodint -> "Pmodint"
   | Pmulint -> "Pmulint"
+  | Pnegint -> "Pnegint"
+  | Pnot -> "Pnot"
+  | Porint -> "Porint"
+  | Praise -> "Praise"
+  | Psequand -> "Psequand"
+  | Psequor -> "Psequor"
+  | Psetarrayitem -> "Psetarrayitem"
+  | Ps
