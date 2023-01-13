@@ -508,4 +508,9 @@ let show_prim = function
   | Pdummy n -> Printf.sprintf "Pdummy %d" n
   | Pfield i -> Printf.sprintf "Pfield %d" i
   | Pfloat f -> show_float_prim f
-  | Pge
+  | Pgetarrayitem -> "Pgetarrayitem"
+  | Pgetstringitem -> "Pgetstringitem"
+  | Pgetglobal id -> Printf.sprintf "Pgetglobal %s" (string_of_long_ident id)
+  | Pincr -> "Pincr"
+  | Plslint -> "Plslint"
+ 
