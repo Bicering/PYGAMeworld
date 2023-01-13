@@ -513,4 +513,9 @@ let show_prim = function
   | Pgetglobal id -> Printf.sprintf "Pgetglobal %s" (string_of_long_ident id)
   | Pincr -> "Pincr"
   | Plslint -> "Plslint"
- 
+  | Plsrint -> "Plsrint"
+  | Pmakearray init -> Printf.sprintf "Pmakearray %b" init
+  | Pmakeblock tag -> "Pmakeblock " ^ show_tag tag
+  | Pmakestring -> "Pmakestring"
+  | Pmodint -> "Pmodint"
+  | Pmulint -> "Pmulint"
