@@ -529,4 +529,12 @@ let show_prim = function
   | Psetstringitem -> "Psetstringitem"
   | Psetfield i -> Printf.sprintf "Psetfield %d" i
   | Psetglobal id -> Printf.sprintf "Psetglobal %s" (string_of_long_ident id)
-  | Pstringlength -> "Pstri
+  | Pstringlength -> "Pstringlength"
+  | Psubint -> "Psbutint"
+  | Ptest t -> show_bool_test t
+  | Pupdate -> "Pupdate"
+  | Pxorint -> "Pxorint"
+
+let dump_prim d prim =
+  let rec go d prim =
+    Printf.printf "%*s" (2*d) ""
