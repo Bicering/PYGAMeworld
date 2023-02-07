@@ -15,4 +15,5 @@ check (5 land 3 = 1);
 check (5 lor 3 = 7);
 check (5 lsl 3 = 40);
 check ("a" < "b");
-check ("aa" < "a
+check ("aa" < "ab");
+check ("aa" > "a")
