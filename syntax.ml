@@ -537,4 +537,7 @@ let show_prim = function
 
 let dump_prim d prim =
   let rec go d prim =
-    Printf.printf "%*s" (2*d) ""
+    Printf.printf "%*s" (2*d) "";
+    show_prim prim |> print_endline
+  in
+  go d prim
