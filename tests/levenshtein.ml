@@ -8,4 +8,11 @@ let levenshtein a b =
   s.(0) <- Array.make (n+1) 0;
   s.(1) <- Array.make (n+1) 0;
   for j = 1 to n do
-    s.
+    s.(0).(j) <- j
+  done;
+  for i = 1 to m do
+    s.(i land 1).(0) <- i;
+    for j = 1 to n do
+      s.(i land 1).(j) <-
+        if a.[i-1] = b.[j-1] then
+          s.((i-1) la
