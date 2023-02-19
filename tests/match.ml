@@ -5,4 +5,8 @@ match false, B (2,4) with
     output_char '0'
 | true,B( i,j) ->
     ()
-| _,B( i
+| _,B( i,j) ->
+    output_int i;
+    output_int j;
+| _,C ->
+    output_char '2'
