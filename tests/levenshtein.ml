@@ -15,4 +15,14 @@ let levenshtein a b =
     for j = 1 to n do
       s.(i land 1).(j) <-
         if a.[i-1] = b.[j-1] then
-          s.((i-1) la
+          s.((i-1) land 1).(j-1)
+        else
+          1 + min (min s.((i-1) land 1).(j-1)
+              s.((i-1) land 1).(j)
+          ) s.(i land 1).(j-1)
+    done
+  done;
+  s.(m land 1).(n)
+
+let () =
+  o
