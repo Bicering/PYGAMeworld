@@ -25,4 +25,4 @@ let levenshtein a b =
   s.(m land 1).(n)
 
 let () =
-  o
+  output_int (levenshtein "abcdheloworldabcd" "abcdhellowoorldabcd")
