@@ -187,3 +187,197 @@ let rec typing_expr env expr =
         | _ ->
             let ty1, ty2 = type_pair_instance cd.info.cs_arg cd.info.cs_res in
             typing_expect env arg ty1;
+            ty2
+        end
+      end
+  | Pexpr_constraint(e,te) ->
+      let ty = type_of_type_expression false te in
+      typing_expect (env) e ty;
+      ty
+  | Pexpr_for(name,start,stop,_,body) ->
+      typing_expect env start type_int;
+      typing_expect env stop type_int;
+      typing_stmt ((name,type_int)::env) body;
+      type_unit
+  | Pexpr_function mat ->
+      begin match mat with
+      | [] -> failwith "empty matching"
+      | (p,e)::_ as mat ->
+          let ty1 = new_type_var()
+          and ty2 = new_type_var() in
+          List.iter (fun (p,e) ->
+            typing_expect (typing_pat [] p ty1 @ env) e ty2
+          ) mat;
+          type_arrow ty1 ty2
+      end;
+  | Pexpr_ident id ->
+      begin match id with
+      | Lident name ->
+          let t = type_instance (try
+              List.assoc name env
+            with Not_found ->
+              try
+                (find_value_desc id).info.v_typ
+              with Not_found ->
+                unbound_value_err expr.e_loc id
+          ) in
+          t
+      | Ldot _ ->
+          try
+            type_instance (find_value_desc id).info.v_typ
+          with Not_found ->
+            unbound_value_err expr.e_loc id
+      end
+  | Pexpr_if(cond,ifso,ifnot) ->
+      typing_expect env cond type_bool;
+      begin match ifnot with
+      | None ->
+          typing_expect env ifso type_unit;
+          type_unit
+      | Some ifnot ->
+          let ty = typing_expr env ifso in
+          typing_expect env ifnot ty;
+          ty
+      end
+  | Pexpr_let(isrec,binds,body) ->
+      typing_expr (typing_let env isrec binds) body
+  | Pexpr_sequence(e1,e2) ->
+      typing_stmt env e1;
+      typing_expr env e2
+  | Pexpr_try(body,pes) ->
+      let ty = typing_expr env body in
+      List.iter (fun (p,e) ->
+        typing_expect (typing_pat [] p type_exn @ env) e ty
+      ) pes;
+      ty
+  | Pexpr_tuple es ->
+      type_product (List.map (typing_expr env) es)
+
+and typing_expect env e expect_ty =
+  match e.e_desc with
+  | Pexpr_let(isrec,binds,body) ->
+      typing_expect (typing_let env isrec binds) body expect_ty
+  | Pexpr_sequence(e1,e2) ->
+      typing_stmt env e1;
+      typing_expect env e2 expect_ty
+  | Pexpr_if(cond,ifso,ifnot) ->
+      typing_expect env cond type_bool;
+      typing_expect env ifso expect_ty;
+      begin match ifnot with
+      | None -> ()
+      | Some ifnot -> typing_expect env ifnot expect_ty
+      end
+  | Pexpr_tuple es ->
+      begin try
+        List.iter2 (typing_expect env) es
+        (filter_product (List.length es) expect_ty)
+      with Unify ->
+        unify_expr e expect_ty (typing_expr env e)
+      end;
+  | _ ->
+      unify_expr e expect_ty (typing_expr env e)
+
+and typing_stmt env e =
+  let ty = typing_expr env e in
+  match (type_repr ty).typ_desc with
+  | Tvar _ -> ()
+  | Tarrow _ -> partial_apply_warn e.e_loc
+  | _ ->
+      if not (same_base_type ty type_unit) then
+        not_unit_type_warn e ty
+
+and typing_let env isrec pes =
+  push_level();
+  let tys = List.map (fun _ -> new_type_var()) pes in
+  let env' = typing_pat_list [] (List.map fst pes) tys @ env in
+  List.iter2 (fun (p,e) ty ->
+    typing_expect (if isrec then env' else env) e ty
+  ) pes tys;
+  pop_level();
+  let gens = List.map (fun (p,e) -> should_generate e) pes in
+  List.iter2 (fun gen ty ->
+    if gen then (
+      gen_type ty;
+    ) else
+      value_restrict ty
+  ) gens tys;
+  env'
+
+and typing_pat penv pat ty =
+  match pat.p_desc with
+  | Ppat_alias(pat,a) ->
+      if List.mem_assoc a penv then
+        nonlinear_pattern_err pat a
+      else
+        typing_pat ((a,ty)::penv) pat ty
+  | Ppat_any ->
+      penv
+  | Ppat_array ps ->
+      let arity = List.length ps in
+      begin try
+        let ty_elem = filter_array arity ty in
+        let rec go penv = function
+          | [] -> penv
+          | p::ps ->
+              go (typing_pat penv p ty_elem) ps
+        in
+        go penv ps
+      with Unify ->
+        pat_wrong_type_err pat ty (new_type_var())
+      end
+  | Ppat_constant c ->
+      unify_pat pat ty (type_of_constant c);
+      penv
+  | Ppat_constr(id,arg) ->
+      let cd =
+        try find_constr_desc id
+        with Not_found -> unbound_constr_err pat.p_loc id
+      in
+      begin match arg with
+      | None ->
+          begin match cd.info.cs_kind with
+          | Constr_constant ->
+              unify_pat pat ty (type_instance cd.info.cs_res);
+              penv
+          | _ ->
+              nonconstant_constr_err pat.p_loc cd
+          end
+      | Some arg ->
+          begin match cd.info.cs_kind with
+          | Constr_constant ->
+              constant_constr_err pat.p_loc cd
+          | _ ->
+              let ty1, ty2 = type_pair_instance cd.info.cs_arg cd.info.cs_res in
+              unify_pat pat ty ty2;
+              typing_pat penv arg ty1
+          end
+      end
+  | Ppat_constraint(pat, te) ->
+      let ty' = type_of_type_expression false te in
+      let penv = typing_pat penv pat ty' in
+      unify_pat pat ty ty';
+      penv
+  | Ppat_or(p1,p2) ->
+      let penv = typing_pat penv p1 ty in
+      typing_pat penv p2 ty
+  | Ppat_tuple ps ->
+      let arity = List.length ps in
+      begin try
+        typing_pat_list penv ps (filter_product arity ty)
+      with Unify ->
+        pat_wrong_type_err pat ty (type_product (new_type_var_list arity))
+      end
+  | Ppat_var v ->
+      if assoc_mem v penv then
+        nonlinear_pattern_err pat v
+      else
+        (v,ty)::penv
+
+and typing_pat_list penv ps tys =
+  match ps, tys with
+  | [], [] ->
+      penv
+  | p::ps, ty::tys ->
+      typing_pat_list (typing_pat penv p ty) ps tys
+  | _, _ ->
+      failwith "arity unmatch"
